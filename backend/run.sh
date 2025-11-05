@@ -74,4 +74,5 @@ echo "MySQL: localhost:3306"
 echo "Apache: http://localhost:8080"
 
 echo "Tailing PHP error logs..."
+podman exec kemispillet-apache touch /var/www/html/php_errors.log
 podman exec kemispillet-apache tail -f /var/www/html/php_errors.log
