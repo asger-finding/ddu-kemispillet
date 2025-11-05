@@ -8,11 +8,16 @@
 
 config_version=5
 
+[accessibility]
+
+general/updates_per_second=30
+
 [application]
 
 config/name="Kemispillet"
 run/main_scene="uid://c1ukq1w7ly0q0"
 config/features=PackedStringArray("4.5", "Forward Plus")
+boot_splash/bg_color=Color(1, 1, 1, 1)
 config/icon="res://icon.svg"
 
 [autoload]
