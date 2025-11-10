@@ -13,6 +13,7 @@ func unload_scene() -> void:
 
 func load_scene(scene_name: String) -> void:
 	unload_scene()
+	
 	var path := 'res://Scenes/%s.tscn' % scene_name
 	var scene_resource = load(path)
 	assert(scene_resource, 'Tried to load scene, but provided scene path was not found')

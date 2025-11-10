@@ -1,0 +1,207 @@
+[gd_scene load_steps=14 format=3 uid="uid://dtbvbdqqcx2w3"]
+
+[ext_resource type="Script" uid="uid://kex04gqx1i30" path="res://Scripts/LoginMenu.gd" id="1_gic8m"]
+[ext_resource type="FontFile" uid="uid://ba3kgg3gkwgif" path="res://Fonts/FingerPaint-Regular.ttf" id="2_13vea"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hlfum"]
+bg_color = Color(0.7891478, 0.9261921, 0.79310286, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_13vea"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwanr"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k52xo"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Theme" id="Theme_13vea"]
+default_font = ExtResource("2_13vea")
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_outline_color = Color(0, 0, 0, 1)
+Button/colors/font_pressed_color = Color(1, 1, 1, 1)
+Button/constants/outline_size = 3
+Button/font_sizes/font_size = 30
+Button/styles/hover = SubResource("StyleBoxFlat_hlfum")
+Button/styles/normal = SubResource("StyleBoxFlat_13vea")
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/font_sizes/font_size = 32
+LineEdit/colors/font_color = Color(0, 0, 0, 1)
+LineEdit/colors/font_placeholder_color = Color(0.5449743, 0.54497427, 0.54497427, 1)
+LineEdit/constants/outline_size = 0
+LineEdit/font_sizes/font_size = 30
+LineEdit/styles/normal = SubResource("StyleBoxFlat_uwanr")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_k52xo")
+
+[sub_resource type="LabelSettings" id="LabelSettings_13vea"]
+font_size = 64
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_it2k5"]
+bg_color = Color(0.4753, 0.73914, 0.97, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.21952218, 0.43568143, 0.8282332, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u7wsd"]
+bg_color = Color(0.3589, 0.68482, 0.97, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.17009999, 0.33106497, 0.63, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s7oap"]
+bg_color = Color(0.79352766, 0.94837826, 0.8043182, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.35563272, 0.6846872, 0.37952185, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_okjb6"]
+bg_color = Color(0.684, 0.95, 0.7061667, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1595386, 0.6212761, 0.33929914, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_uwanr"]
+font_color = Color(1, 0, 0, 1)
+
+[node name="LoginMenu" type="Node2D" node_paths=PackedStringArray("_username_input", "_password_input", "_error_text")]
+script = ExtResource("1_gic8m")
+_username_input = NodePath("PanelContainer/BoxContainer/VBoxContainer/UsernameInput")
+_password_input = NodePath("PanelContainer/BoxContainer/VBoxContainer/PasswordInput")
+_error_text = NodePath("ErrorText")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+theme = SubResource("Theme_13vea")
+
+[node name="BoxContainer" type="BoxContainer" parent="PanelContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/BoxContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="LoginTitle" type="Label" parent="PanelContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Log ind"
+label_settings = SubResource("LabelSettings_13vea")
+horizontal_alignment = 1
+
+[node name="UsernameInput" type="LineEdit" parent="PanelContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Brugernavn"
+
+[node name="PasswordInput" type="LineEdit" parent="PanelContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Adgangskode"
+secret = true
+
+[node name="LoginButtonMargin" type="MarginContainer" parent="PanelContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+
+[node name="LoginButton" type="Button" parent="PanelContainer/BoxContainer/VBoxContainer/LoginButtonMargin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.08360001, 0.20710003, 0.38, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_it2k5")
+theme_override_styles/hover = SubResource("StyleBoxFlat_u7wsd")
+text = "Log ind"
+
+[node name="HorizontalRuleMargin" type="MarginContainer" parent="PanelContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="HorizontalRule" type="ColorRect" parent="PanelContainer/BoxContainer/VBoxContainer/HorizontalRuleMargin"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.65423244, 0.6542319, 0.6542322, 1)
+
+[node name="AlternativeText" type="Label" parent="PanelContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Har du ikke noget login?"
+horizontal_alignment = 1
+
+[node name="SignUpRedirectButton" type="Button" parent="PanelContainer/BoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.0858, 0.33, 0.110219985, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_s7oap")
+theme_override_styles/hover = SubResource("StyleBoxFlat_okjb6")
+text = "Opret ny konto"
+
+[node name="ErrorText" type="Label" parent="."]
+offset_left = 74.0
+offset_top = 99.0
+offset_right = 248.0
+offset_bottom = 122.0
+text = "ERROR MESSAGE HERE"
+label_settings = SubResource("LabelSettings_uwanr")
+
+[connection signal="button_up" from="PanelContainer/BoxContainer/VBoxContainer/LoginButtonMargin/LoginButton" to="." method="_on_login_button_button_up"]
+[connection signal="button_up" from="PanelContainer/BoxContainer/VBoxContainer/SignUpRedirectButton" to="." method="_on_sign_up_redirect_button_button_up"]

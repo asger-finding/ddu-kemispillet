@@ -1,3 +1,28 @@
-[gd_scene format=3 uid="uid://qk1rjhnye5f1"]
+[gd_scene load_steps=2 format=3 uid="uid://qk1rjhnye5f1"]
 
-[node name="Menu" type="Node2D"]
+[ext_resource type="Script" uid="uid://ckgtc3lfeq7r7" path="res://Scripts/MainMenu.gd" id="1_tt5f1"]
+
+[node name="MainMenu" type="Node2D"]
+script = ExtResource("1_tt5f1")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="Titel" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Kemispillet"
+
+[node name="LoginButton" type="MenuButton" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Login"
+
+[node name="SignupButton" type="MenuButton" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "Register"
+
+[connection signal="button_up" from="PanelContainer/VBoxContainer/LoginButton" to="." method="_on_login_button_button_up"]
+[connection signal="button_up" from="PanelContainer/VBoxContainer/SignupButton" to="." method="_on_signup_button_button_up"]
