@@ -1,3 +1,290 @@
-[gd_scene format=3 uid="uid://bu1lntugupx5d"]
+[gd_scene load_steps=27 format=3 uid="uid://b6catodorh3mu"]
+
+[ext_resource type="Shader" uid="uid://bj33mdq7bwfmq" path="res://Shaders/CrumbledPaper.gdshader" id="1_3so38"]
+[ext_resource type="Script" uid="uid://dn02ekxewi45q" path="res://Scripts/Backdrop.gd" id="2_3cx6b"]
+[ext_resource type="PackedScene" uid="uid://bfumbaprtnnwu" path="res://Scenes/World.tscn" id="3_wxwew"]
+[ext_resource type="Script" uid="uid://botyddwy7pgi" path="res://Scripts/CameraFollowPlayer.gd" id="4_acvyw"]
+[ext_resource type="Script" uid="uid://dl0cglho8jpui" path="res://Scripts/Overlay.gd" id="7_x3xnh"]
+[ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="8_8r6kd"]
+[ext_resource type="Texture2D" uid="uid://cpe2c0i8bj32q" path="res://Assets/GameHUD/Filling/frame.png" id="9_tfod6"]
+[ext_resource type="Texture2D" uid="uid://d2butkivrlbho" path="res://Assets/GameHUD/Scrap/frame.png" id="10_rajel"]
+[ext_resource type="Script" uid="uid://2wmk6vtet1jv" path="res://Scripts/Interface/DeathHUD.gd" id="11_vvhu1"]
+[ext_resource type="Shader" uid="uid://bqoitfi71frqv" path="res://Shaders/Death.gdshader" id="12_lbihj"]
+[ext_resource type="Texture2D" uid="uid://cby0347efatav" path="res://Assets/DeathHUD/try-again-icon.png" id="13_wxwew"]
+[ext_resource type="Texture2D" uid="uid://cftghwy0ry4kl" path="res://Assets/DeathHUD/give-up-icon.png" id="14_acvyw"]
+[ext_resource type="Script" uid="uid://di4vwkpp2kh0j" path="res://Scripts/Buttons/TryAgainButton.gd" id="14_alh3a"]
+[ext_resource type="Script" uid="uid://b2wiguib2yok5" path="res://Scripts/Buttons/GiveUpButton.gd" id="16_alh3a"]
+[ext_resource type="Script" uid="uid://vc5mgp7yj82q" path="res://Scripts/Interface/PauseHUD.gd" id="17_4q8tf"]
+[ext_resource type="Script" uid="uid://b2ahdboifpw5f" path="res://Scripts/Buttons/ResumeButton.gd" id="18_x3xnh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_raj38"]
+shader = ExtResource("1_3so38")
+shader_parameter/paper_scale = 1.396
+shader_parameter/wrinkle_strength = 0.361
+shader_parameter/crease_intensity = 0.866
+shader_parameter/paper_color = Color(0.98241, 0.9702, 0.99, 1)
+shader_parameter/shadow_color = Color(0.5175, 0.6325, 0.69, 1)
+shader_parameter/noise_scale = 50.0
+shader_parameter/detail_scale = 154.386
+shader_parameter/camera_offset = Vector2(0, 0)
+shader_parameter/parallax_strength = 0.2
+
+[sub_resource type="LabelSettings" id="LabelSettings_i0vto"]
+font = ExtResource("8_8r6kd")
+font_size = 40
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3jf1l"]
+font = ExtResource("8_8r6kd")
+font_size = 40
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_356ba"]
+shader = ExtResource("12_lbihj")
+shader_parameter/vignette_strength = 1.0
+shader_parameter/vignette_radius = 0.9
+shader_parameter/camera_zoom = Vector2(0.5, 0.5)
+shader_parameter/grayscale_amount = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_tfod6"]
+font = ExtResource("8_8r6kd")
+font_size = 160
+font_color = Color(1, 0, 0, 1)
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rajel"]
+font = ExtResource("8_8r6kd")
+font_size = 60
+font_color = Color(1, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vvhu1"]
+font = ExtResource("8_8r6kd")
+font_size = 60
+font_color = Color(1, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_i4lct"]
+font = ExtResource("8_8r6kd")
+font_size = 120
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8r6kd"]
+font = ExtResource("8_8r6kd")
+font_size = 60
+font_color = Color(2.98411e-06, 0.857276, 0.491533, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wxwew"]
+font = ExtResource("8_8r6kd")
+font_size = 60
+font_color = Color(1, 0.592798, 0.532572, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
 
 [node name="Game" type="Node2D"]
+
+[node name="Parallax Background" type="CanvasLayer" parent="."]
+layer = -2
+follow_viewport_enabled = true
+
+[node name="Backdrop" type="ColorRect" parent="Parallax Background" node_paths=PackedStringArray("camera_reference")]
+material = SubResource("ShaderMaterial_raj38")
+offset_right = 2304.0
+offset_bottom = 1296.0
+script = ExtResource("2_3cx6b")
+camera_reference = NodePath("../../Camera")
+parallax_speed = 0.1
+
+[node name="World" parent="." instance=ExtResource("3_wxwew")]
+
+[node name="Camera" type="Camera2D" parent="."]
+physics_interpolation_mode = 2
+script = ExtResource("4_acvyw")
+
+[node name="Static Background" type="CanvasLayer" parent="Camera"]
+layer = -1
+
+[node name="GameHUD" type="CanvasLayer" parent="Camera"]
+
+[node name="Game Overlay" type="Control" parent="Camera/GameHUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1016.0
+offset_top = 10.0
+offset_right = 1056.0
+offset_bottom = 50.0
+script = ExtResource("7_x3xnh")
+
+[node name="HealthContainer" type="HBoxContainer" parent="Camera/GameHUD/Game Overlay"]
+layout_mode = 0
+offset_left = -183.0
+offset_top = 30.0
+offset_right = -143.0
+offset_bottom = 70.0
+scale = Vector2(0.35, 0.35)
+alignment = 2
+
+[node name="FillingContainer" type="HBoxContainer" parent="Camera/GameHUD/Game Overlay"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 54.0
+offset_right = 166.0
+offset_bottom = 137.0
+
+[node name="FillingLabel" type="Label" parent="Camera/GameHUD/Game Overlay/FillingContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_i0vto")
+
+[node name="FillingIcon" type="TextureRect" parent="Camera/GameHUD/Game Overlay/FillingContainer"]
+layout_mode = 2
+texture = ExtResource("9_tfod6")
+expand_mode = 2
+
+[node name="ScrapContainer" type="HBoxContainer" parent="Camera/GameHUD/Game Overlay"]
+layout_mode = 0
+offset_top = 125.0
+offset_right = 141.0
+offset_bottom = 208.0
+
+[node name="ScrapLabel" type="Label" parent="Camera/GameHUD/Game Overlay/ScrapContainer"]
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_3jf1l")
+
+[node name="ScrapIcon" type="TextureRect" parent="Camera/GameHUD/Game Overlay/ScrapContainer"]
+layout_mode = 2
+texture = ExtResource("10_rajel")
+expand_mode = 2
+
+[node name="DeathHUD" type="CanvasLayer" parent="Camera"]
+script = ExtResource("11_vvhu1")
+
+[node name="DeathScreen" type="ColorRect" parent="Camera/DeathHUD"]
+visible = false
+material = SubResource("ShaderMaterial_356ba")
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="DeathText" type="Label" parent="Camera/DeathHUD"]
+visible = false
+offset_left = 73.0
+offset_top = 161.0
+offset_right = 1086.0
+offset_bottom = 381.0
+text = "av altså mand :("
+label_settings = SubResource("LabelSettings_tfod6")
+
+[node name="TryAgainButton" type="Button" parent="Camera/DeathHUD/DeathText"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 209.0
+offset_right = 477.0
+offset_bottom = 317.0
+theme_type_variation = &"FlatButton"
+icon = ExtResource("13_wxwew")
+script = ExtResource("14_alh3a")
+
+[node name="TryAgainText" type="Label" parent="Camera/DeathHUD/DeathText/TryAgainButton"]
+layout_mode = 0
+offset_left = 122.0
+offset_top = 6.0
+offset_right = 337.0
+offset_bottom = 89.0
+text = "prøv igen"
+label_settings = SubResource("LabelSettings_rajel")
+
+[node name="GiveUpButton" type="Button" parent="Camera/DeathHUD/DeathText"]
+layout_mode = 0
+offset_left = 602.0
+offset_top = 200.0
+offset_right = 875.0
+offset_bottom = 312.0
+theme_type_variation = &"FlatButton"
+icon = ExtResource("14_acvyw")
+script = ExtResource("16_alh3a")
+
+[node name="GiveUpText" type="Label" parent="Camera/DeathHUD/DeathText/GiveUpButton"]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 12.0
+offset_right = 256.0
+offset_bottom = 95.0
+text = "giv op!"
+label_settings = SubResource("LabelSettings_vvhu1")
+
+[node name="PauseHUD" type="CanvasLayer" parent="Camera"]
+process_mode = 3
+script = ExtResource("17_4q8tf")
+
+[node name="PauseText" type="Label" parent="Camera/PauseHUD"]
+visible = false
+offset_left = -68.0
+offset_top = 212.0
+offset_right = 1209.0
+offset_bottom = 432.0
+text = "hjerne på standby"
+label_settings = SubResource("LabelSettings_i4lct")
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="Camera/PauseHUD/PauseText"]
+layout_mode = 0
+offset_left = 247.0
+offset_top = 171.0
+offset_right = 599.0
+offset_bottom = 279.0
+theme_type_variation = &"FlatButton"
+script = ExtResource("18_x3xnh")
+
+[node name="TryAgainText" type="Label" parent="Camera/PauseHUD/PauseText/ResumeButton"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 11.0
+offset_right = 359.0
+offset_bottom = 94.0
+text = "snooze"
+label_settings = SubResource("LabelSettings_8r6kd")
+
+[node name="GiveUpButton" type="Button" parent="Camera/PauseHUD/PauseText"]
+layout_mode = 0
+offset_left = 713.0
+offset_top = 165.0
+offset_right = 986.0
+offset_bottom = 277.0
+theme_type_variation = &"FlatButton"
+script = ExtResource("16_alh3a")
+
+[node name="GiveUpText" type="Label" parent="Camera/PauseHUD/PauseText/GiveUpButton"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 8.0
+offset_right = 219.0
+offset_bottom = 91.0
+text = "vågn op"
+label_settings = SubResource("LabelSettings_wxwew")

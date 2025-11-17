@@ -22,7 +22,9 @@ func _process(_delta):
 	
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		# Here we will update the player stats when the game closes
+		var result = await post("update_player", {
+			"player_id": Account.playerId
+		})
 		get_tree().quit()
 
 func _http_request_completed(result, _response_code, _headers, body):
@@ -47,14 +49,14 @@ func _http_request_completed(result, _response_code, _headers, body):
 		return
 	
 	var response = response_parser.get_data()
-	if response["error"] != "":
-		printerr("Backend returned error: " + response["error"])
+	if response['error'] != "":
+		printerr("Backend returned error: " + response['error'])
 		if request and request.has("promise"):
-			request["promise"].set_result({"error": response["error"], "response": null, "datasize": 0})
+			request["promise"].set_result({"error": response['error'], "response": null, "datasize": 0})
 		return
 	
-	var response_data = response["response"]
-	var data_size = int(response["datasize"])
+	var response_data = response['response']
+	var data_size = int(response['datasize'])
 	
 	if request and request.has("promise"):
 		request["promise"].set_result({"error": "", "response": response_data, "datasize": data_size})
@@ -64,9 +66,9 @@ func _http_request_completed(result, _response_code, _headers, body):
 func _send_request(request: Dictionary):
 	var client = HTTPClient.new()
 	var data = client.query_string_from_dict({
-		"data": JSON.stringify(request["data"])
+		"data": JSON.stringify(request['data'])
 	})
-	var body = "command=" + request["command"] + "&" + data
+	var body = "command=" + request['command'] + "&" + data
 	var err = http_request.request(SERVER_URL, SERVER_HEADERS, HTTPClient.METHOD_POST, body)
 	
 	if err != OK:
@@ -75,7 +77,7 @@ func _send_request(request: Dictionary):
 			request["promise"].set_result({"error": "request_error", "response": null, "datasize": 0})
 		return
 	
-	print("Requesting...\n\tCommand: " + request["command"] + "\n\tBody: " + body)
+	print("Requesting...\n\tCommand: " + request['command'] + "\n\tBody: " + body)
 
 func post(method: String, data: Dictionary) -> Dictionary:
 	var promise = Promise.new()

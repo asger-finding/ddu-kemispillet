@@ -1,7 +1,6 @@
 extends Node
 
-var scene_root: Node2D
-var scene_instance
+@onready var scene_instance
 
 func _ready():
 	load_scene(Constants.DEFAULT_SCENE)
@@ -23,5 +22,5 @@ func load_scene(scene_name: String) -> void:
 
 func _add_scene():
 	scene_instance.visible = false
-	scene_root.add_child(scene_instance)
+	self.add_child(scene_instance)
 	scene_instance.visible = true

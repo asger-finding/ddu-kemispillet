@@ -1,0 +1,231 @@
+[gd_scene load_steps=36 format=3 uid="uid://dftcpbshdx783"]
+
+[ext_resource type="Script" uid="uid://nta00bts7x8w" path="res://Scripts/Player.gd" id="1_2f2ij"]
+[ext_resource type="Texture2D" uid="uid://dpc1b1oshyt7q" path="res://Assets/Sprites/Fald.png" id="2_hkp03"]
+[ext_resource type="Texture2D" uid="uid://jsewx6c4y0dg" path="res://Assets/Sprites/Rul 1.png" id="2_jvwht"]
+[ext_resource type="Texture2D" uid="uid://ddmr8125rk86k" path="res://Assets/Tilemaps/paper.png" id="2_yl1pn"]
+[ext_resource type="Texture2D" uid="uid://c1cjh6oqvyua1" path="res://Assets/Sprites/Rul 2.png" id="3_pahhf"]
+[ext_resource type="Texture2D" uid="uid://70g05yixogyf" path="res://Assets/Sprites/Rul 3.png" id="4_hkp03"]
+[ext_resource type="Texture2D" uid="uid://cdgvm0tcu5rmv" path="res://Assets/Sprites/Rul 4.png" id="5_tu4k3"]
+[ext_resource type="Texture2D" uid="uid://bu7riuei70740" path="res://Assets/Sprites/Løb 1.png" id="6_tsdoj"]
+[ext_resource type="Texture2D" uid="uid://422e2vkvj65i" path="res://Assets/Sprites/Løb 2.png" id="7_i7i4w"]
+[ext_resource type="Texture2D" uid="uid://bjjs7c7dxfocr" path="res://Assets/Sprites/Løb 3.png" id="8_6newq"]
+[ext_resource type="Texture2D" uid="uid://c0nshynkped3c" path="res://Assets/Sprites/Wallslide.png" id="10_tu4k3"]
+[ext_resource type="Script" uid="uid://bsgjmdgcdwuye" path="res://Scripts/Enemy.gd" id="12_v63vq"]
+[ext_resource type="Texture2D" uid="uid://myl7t6t7mecu" path="res://Assets/Sprites/Dasiy/bevægelse2.png" id="13_4xj7t"]
+[ext_resource type="Texture2D" uid="uid://v4wg07iahw63" path="res://Assets/Sprites/Gertrud/bevægelse3.png" id="13_562eg"]
+[ext_resource type="Texture2D" uid="uid://b2bmqb3l5lxns" path="res://Assets/Sprites/Dasiy/bevægelse3.png" id="14_25his"]
+[ext_resource type="Texture2D" uid="uid://brprdj662cl23" path="res://Assets/Sprites/Gertrud/bevægelse2.png" id="14_84f7o"]
+[ext_resource type="Texture2D" uid="uid://cx2tf61pf7kum" path="res://Assets/Sprites/Gertrud/Unavngivet.png" id="15_w6o62"]
+[ext_resource type="Texture2D" uid="uid://cu6xsjqta7ha0" path="res://Assets/Sprites/Dasiy/Unavngivet.png" id="15_ye8ic"]
+[ext_resource type="Texture2D" uid="uid://dc4qtsr8uhrjq" path="res://Assets/Sprites/Otto/bevægelse2.png" id="16_v63vq"]
+[ext_resource type="Texture2D" uid="uid://cpumkdx7ukrej" path="res://Assets/Sprites/Otto/Unavngivet.png" id="17_eadb6"]
+[ext_resource type="Texture2D" uid="uid://cpmpgiaheo712" path="res://Assets/Sprites/Dasiy/Unavngivet ond.png" id="19_8m2kn"]
+[ext_resource type="Texture2D" uid="uid://bl66coit57tcd" path="res://Assets/Sprites/Dasiy/bevægelse2 ond.png" id="20_7b0j5"]
+[ext_resource type="Texture2D" uid="uid://jqpp7jsdr2nj" path="res://Assets/Sprites/Gertrud/bevægelse2 ond.png" id="21_7jt6v"]
+[ext_resource type="Texture2D" uid="uid://4o6cngix7f3i" path="res://Assets/Sprites/Dasiy/bevægelse3 ond.png" id="21_getkc"]
+[ext_resource type="Texture2D" uid="uid://dbuxa6lx2fkf2" path="res://Assets/Sprites/Gertrud/bevægelse3 ond.png" id="22_08u03"]
+[ext_resource type="Texture2D" uid="uid://ctqhsxjdow14m" path="res://Assets/Sprites/Gertrud/bevøgelse 1 ond.png" id="23_6wfar"]
+[ext_resource type="Texture2D" uid="uid://hh0hnyrf00qx" path="res://Assets/Sprites/Otto/Unavngivet ond.png" id="24_twbr1"]
+[ext_resource type="Texture2D" uid="uid://dy8j3pj738e5a" path="res://Assets/Sprites/Otto/bevægelse1 ond.png" id="25_xxs06"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k5t3f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hkp03")
+}],
+"loop": true,
+"name": &"Fald",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jvwht")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_pahhf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_hkp03")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_tu4k3")
+}],
+"loop": false,
+"name": &"Roll",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_6newq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_tsdoj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_i7i4w")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_tu4k3")
+}],
+"loop": true,
+"name": &"Wallslide",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yl1pn"]
+size = Vector2(114, 138)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_yl1pn"]
+resource_name = "platform"
+texture = ExtResource("2_yl1pn")
+texture_region_size = Vector2i(32, 32)
+0:0/size_in_atlas = Vector2i(4, 4)
+0:0/0 = 0
+4:2/size_in_atlas = Vector2i(6, 2)
+4:2/0 = 0
+4:0/size_in_atlas = Vector2i(6, 2)
+4:0/0 = 0
+0:4/size_in_atlas = Vector2i(2, 6)
+0:4/0 = 0
+2:4/size_in_atlas = Vector2i(2, 6)
+2:4/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_t2xfb"]
+sources/0 = SubResource("TileSetAtlasSource_yl1pn")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_65xv6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_562eg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_84f7o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_w6o62")
+}],
+"loop": true,
+"name": &"GodDrage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_v63vq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_eadb6")
+}],
+"loop": true,
+"name": &"GodHaj",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("13_4xj7t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_25his")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ye8ic")
+}],
+"loop": true,
+"name": &"GodKo",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_7jt6v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_08u03")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_6wfar")
+}],
+"loop": true,
+"name": &"OndDrage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("24_twbr1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_xxs06")
+}],
+"loop": true,
+"name": &"OndHaj",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("19_8m2kn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_7b0j5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_getkc")
+}],
+"loop": true,
+"name": &"OndKo",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1k0mi"]
+size = Vector2(176.25, 204.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r53dp"]
+size = Vector2(383, 359)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+scale = Vector2(5, 5)
+script = ExtResource("1_2f2ij")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_k5t3f")
+animation = &"Fald"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(3, -6)
+shape = SubResource("RectangleShape2D_yl1pn")
+debug_color = Color(0.735591, 1.63645e-06, 0.425898, 0.42)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = SubResource("TileSet_t2xfb")
+
+[node name="EnemyKo" type="CharacterBody2D" parent="."]
+position = Vector2(937, -31)
+script = ExtResource("12_v63vq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="EnemyKo"]
+sprite_frames = SubResource("SpriteFrames_65xv6")
+animation = &"OndHaj"
+frame_progress = 0.561119
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyKo"]
+position = Vector2(-8, -5)
+shape = SubResource("RectangleShape2D_1k0mi")
+disabled = true
+
+[node name="Area2D" type="Area2D" parent="EnemyKo"]
+
+[node name="Detect" type="CollisionShape2D" parent="EnemyKo/Area2D"]
+position = Vector2(-1.5, -13.5)
+shape = SubResource("RectangleShape2D_r53dp")
+
+[connection signal="animation_finished" from="Player/AnimatedSprite2D" to="Player" method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="EnemyKo/Area2D" to="EnemyKo" method="_on_area_2d_body_entered"]
