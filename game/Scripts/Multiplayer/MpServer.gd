@@ -4,7 +4,7 @@ const SERVER_PORT := 9090
 
 var ws_peer: WebSocketMultiplayerPeer
 
-func _ready() -> void:
+func create() -> void:
 	ws_peer = WebSocketMultiplayerPeer.new()
 
 	var err := ws_peer.create_server(SERVER_PORT, "*")

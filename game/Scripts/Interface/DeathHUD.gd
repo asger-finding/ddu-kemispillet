@@ -40,3 +40,9 @@ func _process(delta: float) -> void:
 		text.visible = false
 		text_opacity = 0.0
 		text.modulate.a = 0.0
+
+func _on_try_again_button_button_up() -> void:
+	SceneManager.load_scene("Game")
+
+func _on_give_up_button_button_up() -> void:
+	get_tree().quit()

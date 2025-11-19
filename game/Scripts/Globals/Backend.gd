@@ -1,6 +1,7 @@
 extends Node
 
-const SERVER_URL = "http://localhost:8080/Session.php"
+var WEBSOCKET_URL: String
+var SERVER_URL: String
 const SERVER_HEADERS = ["Content-Type: application/x-www-form-urlencoded", "Cache-Control: max-age=0"]
 
 var http_request : HTTPRequest = HTTPRequest.new()
@@ -19,7 +20,7 @@ func _process(_delta):
 	is_requesting = true
 	current_request = request_queue.pop_front()
 	_send_request(current_request)
-	
+
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		var result = await post("update_player", {
@@ -42,6 +43,7 @@ func _http_request_completed(result, _response_code, _headers, body):
 	var response_parser = JSON.new()
 	var parse_error = response_parser.parse(response_body)
 	
+	print(response_body)
 	if parse_error != OK:
 		printerr("JSON parse error: " + response_parser.get_error_message())
 		if request and request.has("promise"):
@@ -64,6 +66,8 @@ func _http_request_completed(result, _response_code, _headers, body):
 		print(response_data, data_size)
 
 func _send_request(request: Dictionary):
+	assert(SERVER_URL, "Server URL is unset.")
+	
 	var client = HTTPClient.new()
 	var data = client.query_string_from_dict({
 		"data": JSON.stringify(request['data'])
@@ -80,6 +84,12 @@ func _send_request(request: Dictionary):
 	print("Requesting...\n\tCommand: " + request['command'] + "\n\tBody: " + body)
 
 func post(method: String, data: Dictionary) -> Dictionary:
+	assert(SERVER_URL, "Server URL is unset.")
+	
 	var promise = Promise.new()
 	request_queue.append({"command": method, "data": data, "promise": promise})
 	return await promise.async()
+
+func set_server_address(address: String) -> void:
+	SERVER_URL = "http://%s:8080/api/Session.php" % address
+	WEBSOCKET_URL = "http://%s:8080/sync" % address

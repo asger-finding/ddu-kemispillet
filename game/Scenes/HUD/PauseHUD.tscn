@@ -1,0 +1,84 @@
+[gd_scene load_steps=6 format=3 uid="uid://bc5utjt2pmoqw"]
+
+[ext_resource type="Script" uid="uid://vc5mgp7yj82q" path="res://Scripts/Interface/PauseHUD.gd" id="1_8wuao"]
+[ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="2_c0fre"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_i4lct"]
+font = ExtResource("2_c0fre")
+font_size = 120
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8r6kd"]
+font = ExtResource("2_c0fre")
+font_size = 60
+font_color = Color(2.98411e-06, 0.857276, 0.491533, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wxwew"]
+font = ExtResource("2_c0fre")
+font_size = 60
+font_color = Color(1, 0.592798, 0.532572, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
+
+[node name="PauseHUD" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_8wuao")
+
+[node name="PauseText" type="Label" parent="."]
+visible = false
+offset_left = -68.0
+offset_top = 212.0
+offset_right = 1209.0
+offset_bottom = 432.0
+text = "hjerne på standby"
+label_settings = SubResource("LabelSettings_i4lct")
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="PauseText"]
+layout_mode = 0
+offset_left = 247.0
+offset_top = 171.0
+offset_right = 599.0
+offset_bottom = 279.0
+theme_type_variation = &"FlatButton"
+
+[node name="TryAgainText" type="Label" parent="PauseText/ResumeButton"]
+layout_mode = 0
+offset_left = 81.0
+offset_top = 11.0
+offset_right = 359.0
+offset_bottom = 94.0
+text = "snooze"
+label_settings = SubResource("LabelSettings_8r6kd")
+
+[node name="GiveUpButton" type="Button" parent="PauseText"]
+layout_mode = 0
+offset_left = 713.0
+offset_top = 165.0
+offset_right = 986.0
+offset_bottom = 277.0
+theme_type_variation = &"FlatButton"
+
+[node name="GiveUpText" type="Label" parent="PauseText/GiveUpButton"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 8.0
+offset_right = 219.0
+offset_bottom = 91.0
+text = "vågn op"
+label_settings = SubResource("LabelSettings_wxwew")
+
+[connection signal="button_up" from="PauseText/ResumeButton" to="." method="_on_resume_button_button_up"]
+[connection signal="button_up" from="PauseText/GiveUpButton" to="." method="_on_give_up_button_button_up"]

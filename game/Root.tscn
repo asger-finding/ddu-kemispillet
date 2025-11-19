@@ -1,8 +1,3 @@
-[gd_scene load_steps=2 format=3 uid="uid://cq4gf0ctpud42"]
-
-[ext_resource type="Script" uid="uid://dxxafuim8y4tc" path="res://Scripts/Multiplayer/MpServer.gd" id="1_gxo8o"]
+[gd_scene format=3 uid="uid://cq4gf0ctpud42"]
 
 [node name="Root" type="Node"]
-
-[node name="MpServer" type="Node" parent="."]
-script = ExtResource("1_gxo8o")

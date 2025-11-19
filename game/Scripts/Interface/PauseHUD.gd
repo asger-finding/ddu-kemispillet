@@ -27,3 +27,9 @@ func _process(delta: float) -> void:
 		text.visible = false
 		text_opacity = 0.0
 		text.modulate.a = text_opacity
+
+func _on_give_up_button_button_up() -> void:
+	get_tree().quit()
+
+func _on_resume_button_button_up() -> void:
+	get_tree().paused = false

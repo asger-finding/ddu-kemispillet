@@ -1,0 +1,99 @@
+[gd_scene load_steps=10 format=3 uid="uid://disc65ttfadmd"]
+
+[ext_resource type="Script" uid="uid://2wmk6vtet1jv" path="res://Scripts/Interface/DeathHUD.gd" id="1_0cgu2"]
+[ext_resource type="Shader" uid="uid://bqoitfi71frqv" path="res://Shaders/Death.gdshader" id="2_hr2kl"]
+[ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="3_tavog"]
+[ext_resource type="Texture2D" uid="uid://cby0347efatav" path="res://Assets/DeathHUD/try-again-icon.png" id="4_78rrp"]
+[ext_resource type="Texture2D" uid="uid://cftghwy0ry4kl" path="res://Assets/DeathHUD/give-up-icon.png" id="6_t6sj2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_356ba"]
+shader = ExtResource("2_hr2kl")
+shader_parameter/vignette_strength = 1.0
+shader_parameter/vignette_radius = 0.9
+shader_parameter/camera_zoom = Vector2(0.5, 0.5)
+shader_parameter/grayscale_amount = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_tfod6"]
+font = ExtResource("3_tavog")
+font_size = 160
+font_color = Color(1, 0, 0, 1)
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 10
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rajel"]
+font = ExtResource("3_tavog")
+font_size = 60
+font_color = Color(1, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vvhu1"]
+font = ExtResource("3_tavog")
+font_size = 60
+font_color = Color(1, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
+
+[node name="DeathHUD" type="CanvasLayer"]
+script = ExtResource("1_0cgu2")
+
+[node name="DeathScreen" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_356ba")
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="DeathText" type="Label" parent="."]
+offset_left = 73.0
+offset_top = 161.0
+offset_right = 1086.0
+offset_bottom = 381.0
+text = "av altså mand :("
+label_settings = SubResource("LabelSettings_tfod6")
+
+[node name="TryAgainButton" type="Button" parent="DeathText"]
+layout_mode = 0
+offset_left = 125.0
+offset_top = 209.0
+offset_right = 477.0
+offset_bottom = 317.0
+theme_type_variation = &"FlatButton"
+icon = ExtResource("4_78rrp")
+
+[node name="TryAgainText" type="Label" parent="DeathText/TryAgainButton"]
+layout_mode = 0
+offset_left = 122.0
+offset_top = 6.0
+offset_right = 337.0
+offset_bottom = 89.0
+text = "prøv igen"
+label_settings = SubResource("LabelSettings_rajel")
+
+[node name="GiveUpButton" type="Button" parent="DeathText"]
+layout_mode = 0
+offset_left = 602.0
+offset_top = 200.0
+offset_right = 875.0
+offset_bottom = 312.0
+theme_type_variation = &"FlatButton"
+icon = ExtResource("6_t6sj2")
+
+[node name="GiveUpText" type="Label" parent="DeathText/GiveUpButton"]
+layout_mode = 0
+offset_left = 104.0
+offset_top = 12.0
+offset_right = 256.0
+offset_bottom = 95.0
+text = "giv op!"
+label_settings = SubResource("LabelSettings_vvhu1")
+
+[connection signal="button_up" from="DeathText/TryAgainButton" to="." method="_on_try_again_button_button_up"]
+[connection signal="button_up" from="DeathText/GiveUpButton" to="." method="_on_give_up_button_button_up"]
