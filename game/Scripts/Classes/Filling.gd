@@ -92,6 +92,5 @@ func _is_near_ground() -> bool:
 	return _ray.is_colliding()
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is Player:
-		# TODO: Some pickup action
-		queue_free()
+	# TODO: Some pickup action
+	queue_free()

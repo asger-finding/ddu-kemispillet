@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=4 uid="uid://bfumbaprtnnwu"]
 
-[ext_resource type="Script" uid="uid://bw38m1l4cavmm" path="res://Scenes/World.gd" id="1_5nsto"]
+[ext_resource type="Script" uid="uid://bw38m1l4cavmm" path="res://Scripts/World.gd" id="1_5nsto"]
 [ext_resource type="TileSet" uid="uid://cdid8llshmlpg" path="res://Assets/Tilemaps/tilemap.tres" id="2_u6nay"]
 [ext_resource type="Script" uid="uid://c47gav04ngiyu" path="res://Scripts/PaperShader.gd" id="3_gjpho"]
 

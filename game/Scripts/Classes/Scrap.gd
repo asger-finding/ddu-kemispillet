@@ -20,6 +20,5 @@ func _handle_floating_motion(delta: float) -> void:
 	global_position.y = _base_position + float_offset
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body is Player:
-		# TODO: Some pickup action
-		queue_free()
+	# TODO: Some pickup action
+	queue_free()

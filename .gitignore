@@ -20,3 +20,8 @@ out/
 
 # Logfiles
 *.log
+
+# Zerotier
+backend/zerotier-data/
+
+**/.env

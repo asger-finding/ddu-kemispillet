@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS kemispillet;
 USE kemispillet;
 
 -- Accounts (login layer)
-CREATE TABLE accounts (
+CREATE TABLE IF NOT EXISTS accounts (
     player_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR(40) NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE accounts (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Player state (game layer)
-CREATE TABLE players (
+CREATE TABLE IF NOT EXISTS players (
     player_id INT UNSIGNED NOT NULL,
     filling INT NOT NULL DEFAULT 0,
     scrap INT NOT NULL DEFAULT 0,
