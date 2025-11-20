@@ -24,7 +24,7 @@ func _process(_delta):
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		var result = await post("update_player", {
-			"player_id": Account.playerId
+			"player_id": MpClient.player_id
 		})
 		get_tree().quit()
 
@@ -43,7 +43,6 @@ func _http_request_completed(result, _response_code, _headers, body):
 	var response_parser = JSON.new()
 	var parse_error = response_parser.parse(response_body)
 	
-	print(response_body)
 	if parse_error != OK:
 		printerr("JSON parse error: " + response_parser.get_error_message())
 		if request and request.has("promise"):

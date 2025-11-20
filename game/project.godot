@@ -19,13 +19,13 @@ boot_splash/image="uid://cjukndtemmwwi"
 [autoload]
 
 Constants="*res://Scripts/Globals/Constants.gd"
-Account="*res://Scripts/Globals/Account.gd"
 Backend="*res://Scripts/Globals/Backend.gd"
 AudioManager="*res://Scripts/Globals/AudioManager.gd"
 PlayerManager="*res://Scripts/Globals/PlayerManager.gd"
 SceneManager="*res://Scripts/Globals/SceneManager.gd"
 MpServer="*res://Scripts/Multiplayer/MpServer.gd"
 MpClient="*res://Scripts/Multiplayer/MpClient.gd"
+MpMessage="*res://Scripts/Multiplayer/MpMessage.gd"
 
 [display]
 

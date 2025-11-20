@@ -13,7 +13,9 @@ func _on_register_button_button_up() -> void:
 	var result = await Backend.post("register", { "username": username, "password": password })
 
 	if (!result["error"]):
-		Account.playerId = snapped(result.response.player_id, 1)
+		MpClient.player_id = snapped(result.response.player_id, 1)
+		MpClient.auth_token = result.response.auth_token
+		await MpClient.handshake()
 		SceneManager.load_scene('Game')
 	else: handle_error(result["error"])
 

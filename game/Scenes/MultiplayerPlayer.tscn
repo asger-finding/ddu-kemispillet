@@ -1,0 +1,142 @@
+[gd_scene load_steps=19 format=3 uid="uid://cmlccnvspm4fv"]
+
+[ext_resource type="Texture2D" uid="uid://c7dcw8syiv6x6" path="res://Assets/Sprites/Player/Death/frame_0.png" id="2_wqk1u"]
+[ext_resource type="Texture2D" uid="uid://ivti0mx0003c" path="res://Assets/Sprites/Player/Fall/frame_0.png" id="3_wn0yb"]
+[ext_resource type="Texture2D" uid="uid://cm580gvkuh6ca" path="res://Assets/Sprites/Player/Hurt/frame_0.png" id="4_ydc2d"]
+[ext_resource type="Texture2D" uid="uid://65k375fygsoh" path="res://Assets/Sprites/Player/Idle/frame_0.png" id="5_qik7m"]
+[ext_resource type="Texture2D" uid="uid://blhyepbnqswaj" path="res://Assets/Sprites/Player/Jump/frame_0.png" id="6_h2bi7"]
+[ext_resource type="Texture2D" uid="uid://stvh0hkkhb44" path="res://Assets/Sprites/Player/Punch/frame_0.png" id="7_l2q3o"]
+[ext_resource type="Texture2D" uid="uid://dc2nfstjuel0a" path="res://Assets/Sprites/Player/Roll/frame_0.png" id="8_d48t1"]
+[ext_resource type="Texture2D" uid="uid://cfgs5yicoapak" path="res://Assets/Sprites/Player/Roll/frame_1.png" id="9_ovxmc"]
+[ext_resource type="Texture2D" uid="uid://jmp2gtx4ofpb" path="res://Assets/Sprites/Player/Roll/frame_2.png" id="10_vc5bd"]
+[ext_resource type="Texture2D" uid="uid://qksjjis8rks6" path="res://Assets/Sprites/Player/Roll/frame_3.png" id="11_wr6fx"]
+[ext_resource type="Texture2D" uid="uid://hgwq63ycyeix" path="res://Assets/Sprites/Player/Run/frame_0.png" id="12_4new6"]
+[ext_resource type="Texture2D" uid="uid://be2kgomqu36n" path="res://Assets/Sprites/Player/Run/frame_1.png" id="13_qh1ne"]
+[ext_resource type="Texture2D" uid="uid://dgsno6i3057g5" path="res://Assets/Sprites/Player/Run/frame_2.png" id="14_s5j08"]
+[ext_resource type="Texture2D" uid="uid://b42mia73mgmod" path="res://Assets/Sprites/Player/Run/frame_3.png" id="15_y84uq"]
+[ext_resource type="Texture2D" uid="uid://c2wjqxenckvc5" path="res://Assets/Sprites/Player/Run/frame_4.png" id="16_qqhfs"]
+[ext_resource type="Texture2D" uid="uid://c0g0iborlmxnt" path="res://Assets/Sprites/Player/Wallslide/frame_0.png" id="17_pwq0u"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d2jk0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_wqk1u")
+}],
+"loop": true,
+"name": &"Death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_wn0yb")
+}],
+"loop": false,
+"name": &"Fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ydc2d")
+}],
+"loop": true,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_qik7m")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_h2bi7")
+}],
+"loop": true,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_qik7m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_l2q3o")
+}],
+"loop": false,
+"name": &"Punch",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_d48t1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ovxmc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_vc5bd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_wr6fx")
+}],
+"loop": false,
+"name": &"Roll",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_4new6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_qh1ne")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_s5j08")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_y84uq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_qqhfs")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("17_pwq0u")
+}],
+"loop": true,
+"name": &"Wallslide",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r0dna"]
+radius = 12.0
+height = 101.6
+
+[node name="MultiplayerPlayer" type="CharacterBody2D"]
+physics_interpolation_mode = 1
+scale = Vector2(5, 5)
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+z_index = 8
+position = Vector2(0.2, 0.2)
+scale = Vector2(0.1, 0.1)
+sprite_frames = SubResource("SpriteFrames_d2jk0")
+animation = &"Death"
+
+[node name="StandingCollision" type="CollisionShape2D" parent="."]
+position = Vector2(-2.59988, 13)
+shape = SubResource("CapsuleShape2D_r0dna")
+one_way_collision = true
+one_way_collision_margin = 0.0
+debug_color = Color(0.735591, 1.63645e-06, 0.425898, 0.42)
+
+[connection signal="animation_changed" from="PlayerSprite" to="." method="_on_player_sprite_animation_changed"]
+[connection signal="animation_finished" from="PlayerSprite" to="." method="_on_animated_sprite_2d_animation_finished"]

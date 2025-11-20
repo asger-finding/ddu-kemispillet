@@ -43,4 +43,13 @@ function validate_player_id($data, $field = 'player_id') {
     }
     return [true, ""];
 }
+function validate_auth_token($data, $field = "auth_token") {
+    if (!isset($data[$field])) {
+        return [false, "missing_{$field}"];
+    }
+    if (!(preg_match('/^[0-9a-f]{64}$/i', $data[$field]) === 1)) {
+        return [false, "wrong_{$field}_format"];
+    }
+    return [true, ""];
+}
 ?>

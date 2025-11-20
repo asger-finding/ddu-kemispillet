@@ -33,7 +33,6 @@ func _ready() -> void:
 	_ray.enabled = true
 
 func _physics_process(delta: float) -> void:
-	
 	if _settled or not _physics_active:
 		_handle_floating_motion(delta)
 		return

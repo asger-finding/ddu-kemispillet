@@ -36,7 +36,7 @@ offset_bottom = 540.0
 layout_mode = 2
 size_flags_vertical = 4
 
-[node name="LoginInLabel" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="PlayOnlineLabel" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_cv61b")
 theme_override_font_sizes/font_size = 70
@@ -44,9 +44,9 @@ text = "Play online"
 label_settings = SubResource("LabelSettings_13vea")
 horizontal_alignment = 1
 
-[node name="IpAddressInput" type="LineEdit" parent="PanelContainer/VBoxContainer"]
+[node name="ConnectAddressInput" type="LineEdit" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-placeholder_text = "Host IP addresse"
+placeholder_text = "Host addresse"
 max_length = 40
 
 [node name="HostButton" type="MenuButton" parent="PanelContainer/VBoxContainer"]

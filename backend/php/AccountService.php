@@ -25,18 +25,22 @@ function register($conn, $data) {
     }
 
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    $auth_token = bin2hex(random_bytes(32));
 
     $conn->begin_transaction();
     try {
         // Create account
-        $stmt = $conn->prepare("INSERT INTO accounts (username, password_hash) VALUES (?, ?)");
+        $stmt = $conn->prepare(
+            "INSERT INTO accounts (username, password_hash, auth_token)
+            VALUES (?, ?, ?)"
+        );
         if (!$stmt) {
             response(0, [], "db_error");
             $conn->rollback();
             return;
         }
         
-        $stmt->bind_param("ss", $username, $password_hash);
+        $stmt->bind_param("sss", $username, $password_hash, $auth_token);
         $stmt->execute();
         
         $player_id = $conn->insert_id;
@@ -54,6 +58,7 @@ function register($conn, $data) {
         $player = [
             'player_id' => $player_id,
             'username' => $username,
+            'auth_token' => $auth_token,
             'filling' => 0,
             'scrap' => 0,
             'inventory' => null
@@ -86,7 +91,7 @@ function login($conn, $data) {
 
     // Get account and player data
     $stmt = $conn->prepare("
-        SELECT a.player_id, a.username, a.password_hash, a.status, 
+        SELECT a.player_id, a.username, a.password_hash, a.auth_token, a.status, 
                p.filling, p.scrap, p.inventory
         FROM accounts a
         INNER JOIN players p ON a.player_id = p.player_id
@@ -125,6 +130,7 @@ function login($conn, $data) {
     $player = [
         'player_id' => $row['player_id'],
         'username' => $row['username'],
+        'auth_token' => $row['auth_token'],
         'filling' => $row['filling'],
         'scrap' => $row['scrap'],
         'inventory' => $row['inventory']
@@ -134,7 +140,7 @@ function login($conn, $data) {
 }
 
 function update_account($conn, $data) {
-    [$valid, $error] = validate_id($data);
+    [$valid, $error] = validate_player_id($data);
     if (!$valid) {
         response(0, [], "missing_player_id");
         return;
@@ -187,5 +193,35 @@ function update_account($conn, $data) {
         response(0, [], "db_error");
     }
     $stmt->close();
+}
+
+function make_handshake($conn, $data) {
+    [$valid, $error] = validate_player_id($data);
+    if (!$valid) {
+        response(0, [], "missing_player_id");
+        return;
+    }
+    [$valid, $error] = validate_auth_token($data);
+    if (!$valid) {
+        response(0, [], "wrong_auth_token_format");
+        return;
+    }
+
+    $player_id = intval($data['player_id']);
+    $auth_token = $data['auth_token'];
+
+    $stmt = $conn->prepare("
+        SELECT 1
+        FROM accounts
+        WHERE player_id = ? AND auth_token = ?
+        LIMIT 1
+    ");
+    $stmt->bind_param("is", $player_id, $auth_token);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $ok = ($result->num_rows === 1);
+    $stmt->close();
+
+    response(1, ['ok' => $ok]);
 }
 ?>

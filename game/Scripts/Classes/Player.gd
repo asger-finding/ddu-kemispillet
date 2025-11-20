@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 # --- State ---
 var health := 0
