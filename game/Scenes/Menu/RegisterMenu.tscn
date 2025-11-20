@@ -63,6 +63,13 @@ theme_override_fonts/font = ExtResource("2_kuwup")
 theme_override_font_sizes/font_size = 40
 text = "Sign up!"
 
+[node name="BackButton" type="MenuButton" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("2_kuwup")
+theme_override_font_sizes/font_size = 40
+text = "← Back"
+
 [node name="ErrorMessage" type="Label" parent="."]
 offset_left = 190.0
 offset_top = 232.0
@@ -73,3 +80,4 @@ text = "Error: something_wrong"
 label_settings = SubResource("LabelSettings_8447u")
 
 [connection signal="button_up" from="PanelContainer/VBoxContainer/RegisterButton" to="." method="_on_register_button_button_up"]
+[connection signal="button_up" from="PanelContainer/VBoxContainer/BackButton" to="." method="_on_back_button_button_up"]

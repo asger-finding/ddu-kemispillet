@@ -9,9 +9,9 @@ var last_filling = -1
 var last_scrap = -1
 
 func _process(_delta):
-	if (not PlayerManager.player_exists): return
+	if (not GameManager.player_exists): return
 	
-	var current = PlayerManager.player.get_health()
+	var current = GameManager.player.get_health()
 	if current != last_health:
 		last_health = current
 		update_health()
@@ -21,8 +21,8 @@ func update_health():
 	for child in hearts_container.get_children():
 		child.queue_free()
 	
-	var max_health = PlayerManager.player.HEALTH
-	var current = PlayerManager.player.get_health()
+	var max_health = GameManager.player.HEALTH
+	var current = GameManager.player.get_health()
 
 	# Create new sprites
 	for i in range(max_health):

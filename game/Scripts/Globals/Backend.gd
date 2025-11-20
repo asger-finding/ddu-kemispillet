@@ -1,9 +1,8 @@
 extends Node
 
-var WEBSOCKET_URL: String
-var SERVER_URL: String
 const SERVER_HEADERS = ["Content-Type: application/x-www-form-urlencoded", "Cache-Control: max-age=0"]
 
+var server_address: String = ""
 var http_request : HTTPRequest = HTTPRequest.new()
 var request_queue : Array = []
 var is_requesting : bool = false
@@ -65,14 +64,16 @@ func _http_request_completed(result, _response_code, _headers, body):
 		print(response_data, data_size)
 
 func _send_request(request: Dictionary):
-	assert(SERVER_URL, "Server URL is unset.")
+	if not server_address:
+		handle_error("Attempted to POST with method %s but server address is unset" % request['command'])
+		return {"error": "server_address_unset", "response": null, "datasize": 0}
 	
 	var client = HTTPClient.new()
 	var data = client.query_string_from_dict({
 		"data": JSON.stringify(request['data'])
 	})
 	var body = "command=" + request['command'] + "&" + data
-	var err = http_request.request(SERVER_URL, SERVER_HEADERS, HTTPClient.METHOD_POST, body)
+	var err = http_request.request(server_address, SERVER_HEADERS, HTTPClient.METHOD_POST, body)
 	
 	if err != OK:
 		printerr("HTTPRequest error: " + str(err))
@@ -82,13 +83,13 @@ func _send_request(request: Dictionary):
 	
 	print("Requesting...\n\tCommand: " + request['command'] + "\n\tBody: " + body)
 
-func post(method: String, data: Dictionary) -> Dictionary:
-	assert(SERVER_URL, "Server URL is unset.")
-	
+func post(method: String, data: Dictionary) -> Dictionary:	
 	var promise = Promise.new()
 	request_queue.append({"command": method, "data": data, "promise": promise})
 	return await promise.async()
 
+func handle_error(error_message: String) -> void:
+	push_error()
+
 func set_server_address(address: String) -> void:
-	SERVER_URL = "http://%s:8080/api/Session.php" % address
-	WEBSOCKET_URL = "http://%s:8080/sync" % address
+	server_address = "http://%s:8080/api/Session.php" % address

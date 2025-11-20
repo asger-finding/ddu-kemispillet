@@ -4,40 +4,71 @@ class_name MultiplayerPlayer
 # --- State (received from network) ---
 var health := 5
 var action_type := 0
-var target_position := Vector2.ZERO
-var target_velocity := Vector2.ZERO
+var network_velocity := Vector2.ZERO
 
 # --- References ---
 @onready var _animated_sprite: AnimatedSprite2D = $PlayerSprite
 @onready var _standing_collision: CollisionShape2D = $StandingCollision
 
-# --- Network interpolation ---
-var position_smoothing := 0.15  # Lower = smoother but more lag
-var last_update_time := 0.0
+# --- Entity Interpolation (https://www.gabrielgambetta.com/entity-interpolation.html) ---
+var position_buffer := []  # { position: Vector2, timestamp: float }[]
+const RENDER_DELAY := 0.2  # Render 2 state updates behund
 
 # --- Lifecycle ---
 func _ready() -> void:
 	_standing_collision.disabled = false
-	target_position = position
 
 func _process(_delta: float) -> void:
 	_handle_animation()
 
 func _physics_process(_delta: float) -> void:
-	# Interpolate position smoothly
-	position = position.lerp(target_position, position_smoothing)
+	if position_buffer.size() < 2:
+		return
 	
-	# Apply velocity for physics interactions
-	velocity = target_velocity
+	var now = Time.get_ticks_msec() / 1000.0
+	var render_timestamp = now - RENDER_DELAY
+	
+	var from_idx = -1
+	var to_idx = -1
+	
+	for i in range(position_buffer.size() - 1):
+		if position_buffer[i].timestamp <= render_timestamp and position_buffer[i + 1].timestamp >= render_timestamp:
+			from_idx = i
+			to_idx = i + 1
+			break
+	
+	if from_idx != -1 and to_idx != -1:
+		var from = position_buffer[from_idx]
+		var to = position_buffer[to_idx]
+		
+		var total_time = to.timestamp - from.timestamp
+		var elapsed_time = render_timestamp - from.timestamp
+		
+		var t = clampf(elapsed_time / total_time, 0.0, 1.0) if total_time > 0 else 0.0
+		
+		position = from.position.lerp(to.position, t)
+		velocity = (to.position - from.position) / total_time if total_time > 0 else Vector2.ZERO
+	else:
+		# Fallback if render_timestamp is beyond the buffer,
+		# then we hold at the last known position
+		if position_buffer.size() > 0:
+			position = position_buffer[-1].position
+			velocity = network_velocity
+	
+	# Cleanup
+	while position_buffer.size() > 2 and position_buffer[1].timestamp < render_timestamp:
+		position_buffer.pop_front()
+	
 	move_and_slide()
 
 # --- Animation ---
 func _handle_animation() -> void:
+	if network_velocity.x != 0: _animated_sprite.flip_h = network_velocity.x < 0
+	
 	match action_type:
 		0:
 			_animated_sprite.speed_scale = 1.0
 			
-			# Handle movement animations
 			var moving_horizontally: bool = abs(velocity.x) > 10.0
 			var on_ground: bool = abs(velocity.y) < 10.0
 			
@@ -52,8 +83,7 @@ func _handle_animation() -> void:
 				else:
 					_animated_sprite.play("Fall")
 		1:
-			# hurt
-			_animated_sprite.play("Fall")
+			_animated_sprite.play("Hurt")
 		2:
 			_animated_sprite.play("Punch")
 		3:
@@ -65,30 +95,33 @@ func _handle_animation() -> void:
 
 # --- Network Update ---
 func update_from_network(data: Dictionary) -> void:
-	last_update_time = Time.get_ticks_msec() / 1000.0
-	
-	# Update target position (smoothly interpolated in _physics_process)
 	if data.has("position"):
-		target_position = Vector2(data.position.x, data.position.y)
+		var new_position = Vector2(data.position.x, data.position.y)
+		var timestamp = Time.get_ticks_msec() / 1000.0
+		
+		position_buffer.append({
+			"position": new_position,
+			"timestamp": timestamp
+		})
+		
+		while position_buffer.size() > 10:
+			position_buffer.pop_front()
+		
+		# Snap first position immediately
+		if position_buffer.size() == 1:
+			position = new_position
 	
-	# Update velocity
 	if data.has("velocity"):
-		target_velocity = Vector2(data.velocity.x, data.velocity.y)
+		network_velocity = Vector2(data.velocity.x, data.velocity.y)
 	
-	# Update sprite flip
-	if data.has("flipped"):
-		_animated_sprite.flip_h = data.flipped
-	
-	# Update health
 	if data.has("health"):
 		var new_health = int(data.health)
 		if new_health <= 0 and health > 0:
 			kill()
 		health = new_health
 	
-	# Update rotation (if needed)
-	if data.has("rotation"):
-		rotation = data.rotation
+	if data.has("action_type"):
+		action_type = data.action_type
 
 # --- Death ---
 func kill() -> void:

@@ -12,7 +12,7 @@ const CAMERA_ZOOM_FURTHEST = 0.1 # coeff of furthest we can zoom out
 const CAMERA_ZOOM_PLAYER_SPEED_COEFF = 0.0001 # how fast should we zoom out according to player speed
 
 func _process(delta: float) -> void:
-	if (not PlayerManager.player_exists or not PlayerManager.player.is_alive()):
+	if (not GameManager.player_exists or not GameManager.player.is_alive()):
 		# Player is not spawned or dead. Intentionally do nothing.
 		return
 	
@@ -20,14 +20,14 @@ func _process(delta: float) -> void:
 	var x_decay = exp(-FOLLOW_X_INTERPOLATION_SPEED * delta)
 	var y_decay = exp(-FOLLOW_Y_INTERPOLATION_SPEED * delta)
 	
-	position.x = lerp(PlayerManager.player.position.x, position.x, x_decay)
+	position.x = lerp(GameManager.player.position.x, position.x, x_decay)
 	position.y = min(
-		lerp(PlayerManager.player.position.y, position.y, y_decay),
+		lerp(GameManager.player.position.y, position.y, y_decay),
 		CAMERA_Y_FLOOR
 	)
 	
 	# Smooth velocity tracking
-	var target_velocity: float = PlayerManager.player.velocity.length()
+	var target_velocity: float = GameManager.player.velocity.length()
 	var smoothing := 5.0
 	var velocity_weight = clamp(smoothing * delta, 0.0, 1.0)
 	effective_velocity = lerp(effective_velocity, target_velocity, velocity_weight)

@@ -9,7 +9,10 @@ enum TypeId {
 	HANDSHAKE_MESSAGE = 1,
 	
 	# payload: {}
-	LEAVE_MESSAGE = 2,
+	JOIN_MESSAGE = 2,
+	
+	# payload: {}
+	LEAVE_MESSAGE = 3,
 	
 	# payload: {
 	#    position: [x: float, y: float],
@@ -17,11 +20,16 @@ enum TypeId {
 	#    action_type: int,
 	#    health: int
 	#  }
-	STATE_UPDATED_MESSAGE = 3,
+	STATE_UPDATED_MESSAGE = 4,
 	
 	# --- SERVER TO PEER ---
 	# payload: {} # TODO: Something here
-	WORLD_UPDATED = 10,
+	WORLD_UPDATED_MESSAGE = 50,
+	
+	# payload: {
+	#    player_details: <player_id: int, username: string>[]
+	# }
+	PLAYER_LIST_CHANGED_MESSAGE = 51,
 	
 	# payload: {
 	#    player_id: int,
@@ -30,18 +38,18 @@ enum TypeId {
 	#    action_type: int,
 	#    health: int
 	#  }
-	PLAYER_CHANGED_MESSAGE = 20,
+	PLAYER_CHANGED_MESSAGE = 52,
 	
 	# payload: {
 	#    player_id: int
 	#  }
-	PLAYER_REMOVED_MESSAGE = 30,
+	PLAYER_REMOVED_MESSAGE = 53,
 	
 	# --- SERVER RESPONSE TO PEER ---
 	# payload: {
 	#    result: bool
 	#  }
-	HANDSHAKE_RESULT_MESSAGE = 100
+	HANDSHAKE_RESULT_MESSAGE = 80
 }
 
 func create_message(type_id: int, payload: Dictionary) -> String:

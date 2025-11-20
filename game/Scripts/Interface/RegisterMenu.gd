@@ -15,8 +15,7 @@ func _on_register_button_button_up() -> void:
 	if (!result["error"]):
 		MpClient.player_id = snapped(result.response.player_id, 1)
 		MpClient.auth_token = result.response.auth_token
-		await MpClient.handshake()
-		SceneManager.load_scene('Game')
+		MpClient.handshake()
 	else: handle_error(result["error"])
 
 func handle_error(code: String) -> void:
@@ -25,3 +24,6 @@ func handle_error(code: String) -> void:
 	await get_tree().create_timer(5).timeout
 	_error_message.text = ''
 	_error_message.visible = false
+
+func _on_back_button_button_up() -> void:
+	SceneManager.load_scene('Menu/MainMenu')

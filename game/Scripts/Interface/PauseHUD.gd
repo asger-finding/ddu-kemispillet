@@ -10,7 +10,7 @@ func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _process(delta: float) -> void:
-	if (not PlayerManager.player_exists or not PlayerManager.player.is_alive()):
+	if (not GameManager.player_exists or not GameManager.player.is_alive()):
 		return
 
 	if Input.is_action_just_pressed("Pause"):

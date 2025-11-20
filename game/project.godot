@@ -20,12 +20,12 @@ boot_splash/image="uid://cjukndtemmwwi"
 
 Constants="*res://Scripts/Globals/Constants.gd"
 Backend="*res://Scripts/Globals/Backend.gd"
-AudioManager="*res://Scripts/Globals/AudioManager.gd"
-PlayerManager="*res://Scripts/Globals/PlayerManager.gd"
-SceneManager="*res://Scripts/Globals/SceneManager.gd"
+MpMessage="*res://Scripts/Multiplayer/MpMessage.gd"
 MpServer="*res://Scripts/Multiplayer/MpServer.gd"
 MpClient="*res://Scripts/Multiplayer/MpClient.gd"
-MpMessage="*res://Scripts/Multiplayer/MpMessage.gd"
+AudioManager="*res://Scripts/Globals/AudioManager.gd"
+SceneManager="*res://Scripts/Globals/SceneManager.gd"
+GameManager="*res://Scripts/Globals/GameManager.gd"
 
 [display]
 

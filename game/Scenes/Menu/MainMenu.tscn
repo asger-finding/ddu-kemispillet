@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cr773w8m7st2v"]
+[gd_scene load_steps=4 format=3 uid="uid://cr773w8m7st2v"]
 
 [ext_resource type="Script" uid="uid://dhngmh82fygu1" path="res://Scripts/Interface/MainMenu.gd" id="1_853f1"]
 [ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="1_tt5f1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_mj0i0"]
+font_size = 26
+font_color = Color(0.52906674, 0.5290667, 0.5290667, 1)
 
 [node name="MainMenu" type="Node2D"]
 script = ExtResource("1_853f1")
@@ -21,6 +25,14 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_tt5f1")
 theme_override_font_sizes/font_size = 70
 text = "Kemispillet"
+horizontal_alignment = 1
+
+[node name="PlayingOn" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_tt5f1")
+theme_override_font_sizes/font_size = 70
+text = "Playing on ..."
+label_settings = SubResource("LabelSettings_mj0i0")
 horizontal_alignment = 1
 
 [node name="LoginButton" type="MenuButton" parent="PanelContainer/VBoxContainer"]

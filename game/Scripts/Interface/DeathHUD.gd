@@ -14,8 +14,8 @@ var grayscale_amount := 0.0
 var text_opacity := 1.0
 
 func _process(delta: float) -> void:
-	if (not PlayerManager.player_exists): return
-	player_died = not PlayerManager.player.is_alive()
+	if (not GameManager.player_exists): return
+	player_died = not GameManager.player.is_alive()
 
 	if player_died:
 		overlay.visible = true

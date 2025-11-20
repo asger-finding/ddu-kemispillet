@@ -15,6 +15,11 @@ var ground_buffer_time: float = 0.05
 var ground_buffer_timer: float = 0.0
 var was_grounded_recently: bool = false
 
+# --- Multiplayer state ---
+var action_type := 0
+var time_since_last_state_emit := 0.0
+var last_multiplayer_state: Dictionary
+
 # --- References ---
 @onready var _animated_sprite: AnimatedSprite2D = $PlayerSprite
 @onready var _standing_collision: CollisionShape2D = $StandingCollision
@@ -23,8 +28,9 @@ var was_grounded_recently: bool = false
 @onready var _wall_ray_left: RayCast2D = $WallRayLeft
 @onready var _wall_ray_right: RayCast2D = $WallRayRight
 @onready var _wall_ray_top: RayCast2D = $WallRayTop
+var shader_material: ShaderMaterial
 
-# Player constants
+# --- Player constants ---
 const HEALTH := 5
 const MAX_JUMPS := 2
 const START_SPEED := 400.0
@@ -40,7 +46,8 @@ const WALL_SLIDE_SPEED = 200.0
 const WALL_JUMP_SPEED = 3000.0
 const WALL_JUMP_LOCK_TIME := 0.35
 
-var shader_material: ShaderMaterial
+# --- Multiplayer constants ---
+const MULTIPLAYER_STATE_UPDATE_FREQUENCY = 0.2 # 200 ms
 
 # --- Lifecycle ---
 func _ready() -> void:
@@ -75,6 +82,8 @@ func _process(delta: float) -> void:
 	# Handle animation
 	_update_ground_buffer(delta)
 	_handle_animation()
+	_set_action_type()
+	_update_multiplayer_state(delta)
 
 func _physics_process(delta: float) -> void:
 	_apply_dead_friction(delta)
@@ -415,6 +424,35 @@ func _handle_punch():
 # --- Internal: State ---
 func kill() -> void:
 	_animated_sprite.play("Death")
+	
+# --- Internal: Multiplayer state ---
+func _set_action_type() -> void:
+	match _animated_sprite.animation:
+		["Run", "Idle", "Jump", "Fall"]:
+			action_type = 0
+		"Hurt":
+			action_type = 1
+		"Punch":
+			action_type = 2
+		"Roll":
+			action_type = 3
+		"Wallslide":
+			action_type = 4
+		_:
+			action_type = 0
+
+func _update_multiplayer_state(delta: float) -> void:
+	var multiplayer_state = {
+		"position": { "x": position.x, "y": position.y },
+		"velocity": { "x": velocity.x, "y": velocity.y },
+		"action_type": action_type,
+		"health": health
+	}
+	time_since_last_state_emit += delta
+	if time_since_last_state_emit >= MULTIPLAYER_STATE_UPDATE_FREQUENCY and last_multiplayer_state != multiplayer_state:
+		GameManager.emit_player_state(multiplayer_state)
+		time_since_last_state_emit = 0
+		last_multiplayer_state = multiplayer_state
 
 # --- Callbacks ---
 func _on_animated_sprite_2d_animation_finished() -> void:

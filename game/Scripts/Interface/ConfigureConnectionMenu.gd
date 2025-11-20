@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var _connect_address_input: LineEdit = $"PanelContainer/VBoxContainer/ConnectAddressInput"
+@onready var _connect_address_input: LineEdit = $"PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ConnectAddressInput"
 @onready var _error_message: Label = $"ErrorMessage"
 
 func _ready() -> void:
@@ -11,17 +11,26 @@ func _ready() -> void:
 	_error_message.visible = false
 
 func _on_host_button_button_up() -> void:
-	Backend.set_server_address("localhost")
 	MpServer.create()
-	MpClient.connect_to_host("127.0.0.1:9090")
-	SceneManager.load_scene("Menu/MainMenu")
+	
+	Backend.set_server_address("localhost")
+	MpClient.set_socket_address("127.0.0.1:9090")
+	connect_and_enter()
 
 func _on_join_button_button_up() -> void:
 	var connect_address = _connect_address_input.get_text()
 	save_connect_address(connect_address)
+	
 	Backend.set_server_address(connect_address)
-	MpClient.connect_to_host(connect_address + "/sync")
-	SceneManager.load_scene("Menu/MainMenu")
+	MpClient.set_socket_address(connect_address + "/sync")
+	connect_and_enter()
+
+func connect_and_enter() -> void:
+	var connect_error = MpClient.connect_to_host()
+	if connect_error == OK:
+		SceneManager.load_scene("Menu/MainMenu")
+	else:
+		handle_error("failed_to_connect")
 
 func save_connect_address(connection_address: String) -> void:
 	var config = ConfigFile.new()

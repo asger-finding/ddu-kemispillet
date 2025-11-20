@@ -44,19 +44,28 @@ text = "Play online"
 label_settings = SubResource("LabelSettings_13vea")
 horizontal_alignment = 1
 
-[node name="ConnectAddressInput" type="LineEdit" parent="PanelContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
-placeholder_text = "Host addresse"
-max_length = 40
+alignment = 1
 
-[node name="HostButton" type="MenuButton" parent="PanelContainer/VBoxContainer"]
+[node name="HostButton" type="MenuButton" parent="PanelContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("2_cv61b")
 theme_override_font_sizes/font_size = 40
 text = "Host"
 
-[node name="JoinButton" type="MenuButton" parent="PanelContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ConnectAddressInput" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+placeholder_text = "Host addresse"
+max_length = 40
+
+[node name="JoinButton" type="MenuButton" parent="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("2_cv61b")
@@ -72,5 +81,5 @@ rotation = -0.335037
 text = "Error: something_wrong"
 label_settings = SubResource("LabelSettings_uwanr")
 
-[connection signal="button_up" from="PanelContainer/VBoxContainer/HostButton" to="." method="_on_host_button_button_up"]
-[connection signal="button_up" from="PanelContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_button_up"]
+[connection signal="button_up" from="PanelContainer/VBoxContainer/HBoxContainer/HostButton" to="." method="_on_host_button_button_up"]
+[connection signal="button_up" from="PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_button_up"]
