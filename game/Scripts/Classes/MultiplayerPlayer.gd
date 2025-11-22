@@ -2,6 +2,8 @@ extends CharacterBody2D
 class_name MultiplayerPlayer
 
 # --- State (received from network) ---
+var username: String
+var player_id: int
 var health := 5
 var action_type := 0
 var network_velocity := Vector2.ZERO
@@ -9,6 +11,7 @@ var network_velocity := Vector2.ZERO
 # --- References ---
 @onready var _animated_sprite: AnimatedSprite2D = $PlayerSprite
 @onready var _standing_collision: CollisionShape2D = $StandingCollision
+@onready var _username_label: Label = $Username
 
 # --- Entity Interpolation (https://www.gabrielgambetta.com/entity-interpolation.html) ---
 var position_buffer := []  # { position: Vector2, timestamp: float }[]
@@ -17,6 +20,7 @@ const RENDER_DELAY := 0.2  # Render 2 state updates behund
 # --- Lifecycle ---
 func _ready() -> void:
 	_standing_collision.disabled = false
+	_username_label.text = ""
 
 func _process(_delta: float) -> void:
 	_handle_animation()
@@ -64,6 +68,7 @@ func _physics_process(_delta: float) -> void:
 # --- Animation ---
 func _handle_animation() -> void:
 	if network_velocity.x != 0: _animated_sprite.flip_h = network_velocity.x < 0
+	_username_label.pivot_offset.x = 9 if _animated_sprite.flip_h else 0
 	
 	match action_type:
 		0:
@@ -93,8 +98,15 @@ func _handle_animation() -> void:
 		_:
 			pass
 
-# --- Network Update ---
-func update_from_network(data: Dictionary) -> void:
+# --- Network ---
+func set_username(_username: String) -> void:
+	username = _username
+	_username_label.text = username
+
+func set_player_id(_player_id: int) -> void:
+	player_id = _player_id
+
+func update_state(data: Dictionary) -> void:
 	if data.has("position"):
 		var new_position = Vector2(data.position.x, data.position.y)
 		var timestamp = Time.get_ticks_msec() / 1000.0

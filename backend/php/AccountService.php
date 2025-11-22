@@ -195,6 +195,46 @@ function update_account($conn, $data) {
     $stmt->close();
 }
 
+function get_player_details($conn, $data) {
+    [$valid, $error] = validate_player_id($data);
+    if (!$valid) {
+        response(0, [], "missing_player_id");
+        return;
+    }
+    
+    $player_id = intval($data['player_id']);
+    
+    $stmt = $conn->prepare("
+        SELECT a.player_id, a.username, 
+               p.filling, p.scrap, p.inventory
+        FROM accounts a
+        INNER JOIN players p ON a.player_id = p.player_id
+        WHERE a.player_id = ?
+    ");
+    $stmt->bind_param("i", $player_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows === 0) {
+        response(0, [], "player_not_found");
+        $stmt->close();
+        return;
+    }
+    
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    
+    $player = [
+        'player_id' => $row['player_id'],
+        'username' => $row['username'],
+        'filling' => $row['filling'],
+        'scrap' => $row['scrap'],
+        'inventory' => $row['inventory']
+    ];
+    
+    response(1, $player);
+}
+
 function make_handshake($conn, $data) {
     [$valid, $error] = validate_player_id($data);
     if (!$valid) {
@@ -206,22 +246,39 @@ function make_handshake($conn, $data) {
         response(0, [], "wrong_auth_token_format");
         return;
     }
-
+    
     $player_id = intval($data['player_id']);
     $auth_token = $data['auth_token'];
-
+    
     $stmt = $conn->prepare("
-        SELECT 1
-        FROM accounts
-        WHERE player_id = ? AND auth_token = ?
+        SELECT a.player_id, a.username, 
+               p.filling, p.scrap, p.inventory
+        FROM accounts a
+        INNER JOIN players p ON a.player_id = p.player_id
+        WHERE a.player_id = ? AND a.auth_token = ?
         LIMIT 1
     ");
     $stmt->bind_param("is", $player_id, $auth_token);
     $stmt->execute();
     $result = $stmt->get_result();
-    $ok = ($result->num_rows === 1);
+    
+    if ($result->num_rows === 0) {
+        $stmt->close();
+        response(1, ['ok' => false]);
+        return;
+    }
+    
+    $row = $result->fetch_assoc();
     $stmt->close();
-
-    response(1, ['ok' => $ok]);
+    
+    $player_details = [
+        'player_id' => $row['player_id'],
+        'username' => $row['username'],
+        'filling' => $row['filling'],
+        'scrap' => $row['scrap'],
+        'inventory' => $row['inventory']
+    ];
+    
+    response(1, ['ok' => true, 'player_details' => $player_details]);
 }
 ?>

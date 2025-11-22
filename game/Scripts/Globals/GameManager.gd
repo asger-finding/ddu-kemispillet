@@ -48,6 +48,8 @@ func _player_list_changed(list: Array):
 			var other_player = MULTIPLAYER_PLAYER_SCENE.instantiate()
 			SceneManager.scene_instance.add_child(other_player)
 			other_player.global_position = Vector2(7953.0, -961.0)
+			other_player.set_player_id(player_id)
+			other_player.set_username(entry.username)
 			other_players[player_id] = other_player
 
 func _on_player_changed(state: Dictionary) -> void:
@@ -56,4 +58,4 @@ func _on_player_changed(state: Dictionary) -> void:
 	if not other_players.has(player_id): return
 	
 	var other_player = other_players[player_id]
-	other_player.update_from_network(state)
+	other_player.update_state(state)

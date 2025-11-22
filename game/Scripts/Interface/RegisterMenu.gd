@@ -11,7 +11,7 @@ func _on_register_button_button_up() -> void:
 	var username = _username_input.get_text()
 	var password = _password_input.get_text()
 	var result = await Backend.post("register", { "username": username, "password": password })
-
+	
 	if (!result["error"]):
 		MpClient.player_id = snapped(result.response.player_id, 1)
 		MpClient.auth_token = result.response.auth_token

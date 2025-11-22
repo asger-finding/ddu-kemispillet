@@ -34,6 +34,9 @@ switch ($_REQUEST['command']) {
     case "update_account":
         update_account($conn, $data);
         break;
+    case "get_player_details":
+        get_player_details($conn, $data);
+        break;
    case "make_handshake":
         make_handshake($conn, $data);
         break;
