@@ -468,6 +468,14 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 			_punch_hitbox.disabled = true
 			_animated_sprite.play("Idle")
 
+func _unhandled_input(event):
+	if not event.is_pressed():
+		return
+	
+	for action in InputMap.get_actions():
+		if Input.is_action_pressed(action):
+			time_since_last_state_emit = MULTIPLAYER_STATE_UPDATE_FREQUENCY
+
 # --- Public API: Stun ---
 func stun(time: float) -> bool:
 	if stun_time > 0:
