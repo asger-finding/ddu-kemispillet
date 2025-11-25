@@ -4,7 +4,7 @@ class_name Player
 # --- State ---
 var health := 0
 var jump_count := 0
-var body_type = "Female_1"
+var player_skin = "Female_1"
 var is_rolling := false
 var is_wall_sliding = false
 var did_wall_jump := false
@@ -105,7 +105,6 @@ uniform bool shadow_only = false;
 uniform vec4 shadow_color : source_color;
 uniform float blur_std = 0.4;
 uniform vec2 shadow_offset = vec2(0.0);
-uniform bool white = false; // Flash effect uniform
 
 // Precomputed constants
 const float SQRT_2 = 1.41421356;
@@ -156,8 +155,6 @@ void fragment() {
 		c = texture(TEXTURE, UV);
 	}
 	
-	// Apply flash effect
-	vec4 sprite_color = white ? vec4(1.0, 1.0, 1.0, c.a) : c;
 	
 	// Early exit if completely transparent and no shadow needed
 	if (blur_std < 0.1 && c.a <= 0.001) {
@@ -192,7 +189,7 @@ void fragment() {
 	// Composite shadow and sprite
 	float e = shadow_only ? 0.0 : 1.0;
 	vec4 shadow = vec4(shadow_color.rgb, weight * shadow_color.a);
-	COLOR = c.a * e * sprite_color + (1.0 - c.a * e) * shadow;
+	COLOR = c.a * e * c + (1.0 - c.a * e) * shadow;
 	COLOR *= modulate;
 	
 	if (COLOR.a < 0.001) {
@@ -207,7 +204,6 @@ void fragment() {
 	shader_material.set_shader_parameter("shadow_color", Color(0.0, 0.0, 0.0, 0.3))
 	shader_material.set_shader_parameter("blur_std", 1.0)
 	shader_material.set_shader_parameter("shadow_offset", Vector2(0.0, 0.0))
-	shader_material.set_shader_parameter("white", false)
 	_animated_sprite.material = shader_material
 
 # --- Internal: Animation ---
@@ -236,7 +232,7 @@ func _handle_animation() -> void:
 		_animated_sprite.speed_scale *= 1.6 + abs(velocity.x) / TOP_SPEED
 		_animated_sprite.flip_h = false
 		if was_grounded_recently:
-			_animated_sprite.play(body_type + "_Run")
+			_animated_sprite.play(player_skin + "_Run")
 			return
 	
 	if Input.is_action_pressed("Left"):
@@ -245,20 +241,20 @@ func _handle_animation() -> void:
 		# if you read this, Eliot has infiltrated your code >:(
 		# wtf
 		if was_grounded_recently:
-			_animated_sprite.play(body_type + "_Run")
+			_animated_sprite.play(player_skin + "_Run")
 			return
 	
 	_animated_sprite.stop()
 	
 	if is_wall_sliding:
-		_animated_sprite.play(body_type + "_Wallslide")
+		_animated_sprite.play(player_skin + "_Wallslide")
 		return
 	
 	if was_grounded_recently:
-		_animated_sprite.play(body_type + "_Idle")
+		_animated_sprite.play(player_skin + "_Idle")
 	else:
-		if velocity.y <= 0: _animated_sprite.play(body_type + "_Jump")
-		else: _animated_sprite.play(body_type + "_Fall")
+		if velocity.y <= 0: _animated_sprite.play(player_skin + "_Jump")
+		else: _animated_sprite.play(player_skin + "_Fall")
 
 # --- Internal: Movement ---
 func _apply_dead_friction(delta: float) -> void:
@@ -325,7 +321,7 @@ func _start_roll() -> void:
 	_standing_collision.disabled = true
 	_rolling_collision.disabled = false
 	
-	_animated_sprite.play(body_type + "_Roll")
+	_animated_sprite.play(player_skin + "_Roll")
 	
 func _stop_roll() -> void:
 	is_rolling = false
@@ -379,19 +375,18 @@ func _handle_horizontal_movement(delta: float) -> void:
 
 # --- Internal: State ---
 func kill() -> void:
-	_animated_sprite.play(body_type + "_Death")
+	_animated_sprite.play(player_skin + "_Death")
 	
 # --- Internal: Multiplayer state ---
 func _set_action_type() -> void:
 	match _animated_sprite.animation.substr(_animated_sprite.animation.find("_") + 3):
 		["Run", "Idle", "Jump", "Fall"]:
+			# These actions will be handled by the physics interpolator
 			action_type = 0
-		"Hurt":
-			action_type = 1
 		"Roll":
-			action_type = 3
+			action_type = 1
 		"Wallslide":
-			action_type = 4
+			action_type = 2
 		_:
 			action_type = 0
 
@@ -410,12 +405,11 @@ func _update_multiplayer_state(delta: float) -> void:
 
 # --- Callbacks ---
 func _on_animated_sprite_2d_animation_finished() -> void:
-	var full = _animated_sprite.animation.substr(_animated_sprite.animation.find("_") + 3)
 	match _animated_sprite.animation.substr(_animated_sprite.animation.find("_") + 3):
 		"Roll":
 			# Continue to roll if we are below a roof
 			if is_rolling and _wall_ray_top and _wall_ray_top.is_colliding():
-				_animated_sprite.play(body_type + "_Roll")
+				_animated_sprite.play(player_skin + "_Roll")
 			else:
 				_stop_roll()
 

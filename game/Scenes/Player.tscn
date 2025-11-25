@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://cy2wplw3dfvmh"]
+[gd_scene load_steps=61 format=3 uid="uid://cy2wplw3dfvmh"]
 
 [ext_resource type="Script" uid="uid://nta00bts7x8w" path="res://Scripts/Classes/Player.gd" id="1_i2e8t"]
 [ext_resource type="Texture2D" uid="uid://bu10oh6wafy16" path="res://Assets/Sprites/Player/Female_1/Death/frame_0.png" id="2_ddly5"]
@@ -369,9 +369,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5dli4"]
-size = Vector2(300, 1044)
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_r0dna"]
 radius = 12.0
 height = 101.6
@@ -390,15 +387,6 @@ position = Vector2(0.2, 0.2)
 scale = Vector2(0.1, 0.1)
 sprite_frames = SubResource("SpriteFrames_d2jk0")
 animation = &"Female_1_Roll"
-
-[node name="Punch" type="Area2D" parent="PlayerSprite"]
-position = Vector2(62, -396)
-collision_layer = 4
-collision_mask = 2
-
-[node name="PunchHitbox" type="CollisionShape2D" parent="PlayerSprite/Punch"]
-position = Vector2(-91, 630)
-shape = SubResource("RectangleShape2D_5dli4")
 
 [node name="StandingCollision" type="CollisionShape2D" parent="."]
 position = Vector2(-2.59988, 13)
@@ -429,5 +417,3 @@ target_position = Vector2(0, -69)
 
 [connection signal="animation_changed" from="PlayerSprite" to="." method="_on_player_sprite_animation_changed"]
 [connection signal="animation_finished" from="PlayerSprite" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="body_entered" from="PlayerSprite/Punch" to="." method="_on_punch_body_entered"]
-[connection signal="body_exited" from="PlayerSprite/Punch" to="." method="_on_punch_body_exited"]

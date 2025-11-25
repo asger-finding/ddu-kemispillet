@@ -8,7 +8,6 @@ var _last_peer_id := 0
 
 signal peer_connected(peer_id: int)
 signal peer_disconnected(peer_id: int)
-# signal peer_message_received(peer_id: int, message: String)
 
 func _ready() -> void:
 	set_process(false)
@@ -79,6 +78,8 @@ func handle_message(peer_id: int, message: Dictionary) -> void:
 			
 			if handshaked:
 				_peers[peer_id].player_details = handshake_result["response"]["player_details"]
+				_peers[peer_id].player_details["player_skin"] = ""
+				_peers[peer_id].player_details["joined"] = false
 			
 			print("Server is returning if peer %s gets handshake: " % peer_id, handshaked)
 			
@@ -92,12 +93,19 @@ func handle_message(peer_id: int, message: Dictionary) -> void:
 		MpMessage.TypeId.JOIN_MESSAGE:
 			print("Peer %s is joining the game" % peer_id)
 			
+			var player_skin = payload["player_skin"]
+			if not player_skin: return
+			_peers[peer_id].player_details["player_skin"] = player_skin
+			_peers[peer_id].player_details["joined"] = true
+			
+			# Broadcast all players
 			var player_details: Array[Dictionary] = []
 			for peer_id_iterator in _peers.keys():
 				var player_detail = _peers[peer_id_iterator].player_details
-				if player_detail == null: continue
+				if player_detail.is_empty(): continue
+				if not player_detail.joined: continue
 				player_details.append(player_detail)
-				
+			
 			broadcast(MpMessage.create_message(MpMessage.TypeId.PLAYER_LIST_CHANGED_MESSAGE, {
 				"player_details": player_details
 			}))
@@ -105,13 +113,17 @@ func handle_message(peer_id: int, message: Dictionary) -> void:
 		MpMessage.TypeId.LEAVE_MESSAGE:
 			disconnect_peer(peer_id, 1000, "Player left the game")
 			
-			var player_id = _peers[peer_id].player_details.player_id
-			if player_id:
-				send_to_peer(peer_id, MpMessage.create_message(MpMessage.TypeId.PLAYER_REMOVED_MESSAGE, {
-					"player_id": player_id
-				}))
+			var player_details: Array[Dictionary] = []
+			for peer_id_iterator in _peers.keys():
+				player_details.append(_peers[peer_id_iterator].player_details)
+			
+			broadcast(MpMessage.create_message(MpMessage.TypeId.PLAYER_LIST_CHANGED_MESSAGE, {
+				"player_details": player_details
+			}))
 		
 		MpMessage.TypeId.STATE_UPDATED_MESSAGE:
+			if not GameManager.in_game: return
+			
 			var corrected_player_data = validate_state_update(peer_id, payload)
 			var data = corrected_player_data.duplicate()
 			data.player_id = _peers[peer_id].player_details.player_id
@@ -133,7 +145,7 @@ func player_ready(peer_id: int) -> bool:
 	var peer = _peers[peer_id]
 	
 	if not peer: return false
-	if peer.player_details == null: return false
+	if peer.player_details.is_empty(): return false
 	if peer.get_ready_state() != WebSocketPeer.STATE_OPEN: return false
 	
 	return true

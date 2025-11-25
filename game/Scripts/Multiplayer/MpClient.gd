@@ -61,7 +61,6 @@ func handle_message(message: Dictionary) -> void:
 		
 		MpMessage.TypeId.PLAYER_LIST_CHANGED_MESSAGE:
 			for player_detail in payload.player_details:
-				print(player_detail)
 				if player_detail.player_id and player_detail.player_id is float:
 					player_detail.player_id = int(player_detail.player_id)
 			_player_list_changed.emit(payload.player_details)
@@ -102,8 +101,14 @@ func join_game() -> void:
 	if state != Constants.HANDSHAKED:
 		push_error("Player tried to join game before being handshaked")
 		return
+		
+	if not GameManager.player_skin:
+		push_error("Player tried to join game without setting a skin first")
+		return
 	
 	send_to_server(MpMessage.create_message(
 		MpMessage.TypeId.JOIN_MESSAGE,
-		{}
+		{
+			"player_skin": GameManager.player_skin
+		}
 	))
