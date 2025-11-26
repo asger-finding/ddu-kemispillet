@@ -1,4 +1,4 @@
-name: "godot-ci export"
+name: godot-ci export
 on: push
 
 env:
@@ -7,10 +7,10 @@ env:
 
 jobs:
   export-web:
-    name: Web Export
     runs-on: ubuntu-24.04
     container:
       image: barichello/godot-ci:4.5.1
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
 
       - name: Setup
         run: |
-          mkdir -v -p ~/.local/share/godot/export_templates/
+          mkdir -p ~/.local/share/godot/export_templates/
           mv /root/.local/share/godot/export_templates/${GODOT_VERSION}.stable \
              ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable
 
@@ -29,9 +29,14 @@ jobs:
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Web" ../public/game/index.html
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        with:
-          branch: gh-pages
-          folder: public
-          clean: false
+      - name: Deploy to Netlify Branch
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git fetch origin
+          git switch -C netlify
+          rm -rf ./*
+          cp -r ../public/* .
+          git add -A
+          git commit -m "Deploy" || true
+          git push origin netlify --force
