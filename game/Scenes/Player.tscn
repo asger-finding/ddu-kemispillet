@@ -182,7 +182,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("23_01r87")
 }],
-"loop": true,
+"loop": false,
 "name": &"Female_2_Roll",
 "speed": 9.0
 }, {

@@ -183,7 +183,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("23_01r87")
 }],
-"loop": true,
+"loop": false,
 "name": &"Female_2_Roll",
 "speed": 9.0
 }, {
@@ -389,7 +389,7 @@ script = ExtResource("1_4b28q")
 position = Vector2(0.2, 0.2)
 scale = Vector2(0.1, 0.1)
 sprite_frames = SubResource("SpriteFrames_d2jk0")
-animation = &"Female_1_Fall"
+animation = &"Female_2_Run"
 
 [node name="StandingCollision" type="CollisionShape2D" parent="."]
 position = Vector2(-2.6, 47)
