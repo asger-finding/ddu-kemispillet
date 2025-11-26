@@ -50,7 +50,7 @@ jobs:
 
       - name: Install and Deploy to Surge
         run: |
-          apt-get install -y nodejs npm
+          apt-get update && apt-get install -y nodejs npm
           
           npm install -g surge
           surge ./surge-deploy ddu-kemispillet.surge.sh --token ${{ secrets.SURGE_TOKEN }}
