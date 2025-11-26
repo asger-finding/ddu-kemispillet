@@ -33,17 +33,24 @@ jobs:
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Web" ../public/game/index.html
 
-      - name: Push to netlify branch
+      - name: Push to surge branch
         run: |
           # https://github.com/actions/checkout/issues/363
           git config --global --add safe.directory "$PWD"
 
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git clone --single-branch --branch netlify https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git netlify-deploy
-          cd netlify-deploy
+          git clone --single-branch --branch surge https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git surge-deploy
+          cd surge-deploy
           find . -maxdepth 1 ! -name '.' ! -name '..' ! -name '.git' ! -name 'index.html' ! -name 'styles.css' -exec rm -rf {} +
           cp -r ../public/* .
           git add .
           git commit -m "Deploy build from ${{ github.sha }}" || echo "No changes to commit"
-          git push origin netlify
+          git push origin surge
+
+      - name: Install and Deploy to Surge
+        run: |
+          apt-get update && apt-get install -y nodejs npm
+          
+          npm install -g surge
+          surge ./surge-deploy ddu-kemispillet.surge.sh --token ${{ secrets.SURGE_TOKEN }}
