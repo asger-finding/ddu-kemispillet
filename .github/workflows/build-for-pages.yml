@@ -35,11 +35,17 @@ jobs:
 
       - name: Push to netlify branch
         run: |
+          # https://github.com/actions/checkout/issues/363
           git config --global --add safe.directory "$PWD"
 
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git checkout -B netlify
-          git add -f public
-          git commit -m "Deploy build from ${{ github.sha }}"
-          git push -f origin netlify
+          git fetch origin netlify
+          git checkout netlify
+          git checkout netlify -- index.html styles.css
+          git rm -rf --ignore-unmatch $(git ls-files | grep -v -E '^(index\.html|styles\.css)$')
+          cp -r public/* .
+          rm -rf public
+          git add .
+          git commit -m "Deploy build from ${{ github.sha }}" || echo "No changes to commit"
+          git push origin netlify
