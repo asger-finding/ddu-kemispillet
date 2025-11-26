@@ -4,11 +4,10 @@ class_name Player
 # --- State ---
 var health := 0
 var jump_count := 0
+var player_skin = "Female_1"
 var is_rolling := false
-var is_punching := false
 var is_wall_sliding = false
 var did_wall_jump := false
-var stun_time := 0.0
 var slide_dir = 0
 var wall_jump_air_control := 1.0
 var ground_buffer_time: float = 0.05
@@ -24,7 +23,6 @@ var last_multiplayer_state: Dictionary
 @onready var _animated_sprite: AnimatedSprite2D = $PlayerSprite
 @onready var _standing_collision: CollisionShape2D = $StandingCollision
 @onready var _rolling_collision: CollisionShape2D = $RollingCollision
-@onready var _punch_hitbox: CollisionShape2D = $PlayerSprite/Punch/PunchHitbox
 @onready var _wall_ray_left: RayCast2D = $WallRayLeft
 @onready var _wall_ray_right: RayCast2D = $WallRayRight
 @onready var _wall_ray_top: RayCast2D = $WallRayTop
@@ -73,11 +71,6 @@ func _process(delta: float) -> void:
 	var shadow_offset = Vector2(shadow_exp * 35.0 * direction, shadow_exp * 80.0)
 	shader_material.set_shader_parameter("blur_std", max(shadow_exp * 20.0, 4.0))
 	shader_material.set_shader_parameter("shadow_offset", shadow_offset)
-
-	var was_stunned := process_stun(delta)
-	if was_stunned:
-		_animated_sprite.play("Hurt")
-		return
 	
 	# Handle animation
 	_update_ground_buffer(delta)
@@ -94,21 +87,10 @@ func _physics_process(delta: float) -> void:
 		if wall_jump_air_control >= 1.0:
 			did_wall_jump = false
 	
-	if stun_time > 0.0:
-		is_rolling = false
-		is_punching = false
-		return
-	
-	if is_punching:
-		return
-	
-	_punch_hitbox.disabled = true
-	
 	_handle_wall_slide()
 	_handle_jump()
 	_handle_wall_jump()
 	_handle_roll()
-	_handle_punch()
 	
 	if not is_rolling:
 		_handle_horizontal_movement(delta)
@@ -123,7 +105,6 @@ uniform bool shadow_only = false;
 uniform vec4 shadow_color : source_color;
 uniform float blur_std = 0.4;
 uniform vec2 shadow_offset = vec2(0.0);
-uniform bool white = false; // Flash effect uniform
 
 // Precomputed constants
 const float SQRT_2 = 1.41421356;
@@ -174,8 +155,6 @@ void fragment() {
 		c = texture(TEXTURE, UV);
 	}
 	
-	// Apply flash effect
-	vec4 sprite_color = white ? vec4(1.0, 1.0, 1.0, c.a) : c;
 	
 	// Early exit if completely transparent and no shadow needed
 	if (blur_std < 0.1 && c.a <= 0.001) {
@@ -210,7 +189,7 @@ void fragment() {
 	// Composite shadow and sprite
 	float e = shadow_only ? 0.0 : 1.0;
 	vec4 shadow = vec4(shadow_color.rgb, weight * shadow_color.a);
-	COLOR = c.a * e * sprite_color + (1.0 - c.a * e) * shadow;
+	COLOR = c.a * e * c + (1.0 - c.a * e) * shadow;
 	COLOR *= modulate;
 	
 	if (COLOR.a < 0.001) {
@@ -225,7 +204,6 @@ void fragment() {
 	shader_material.set_shader_parameter("shadow_color", Color(0.0, 0.0, 0.0, 0.3))
 	shader_material.set_shader_parameter("blur_std", 1.0)
 	shader_material.set_shader_parameter("shadow_offset", Vector2(0.0, 0.0))
-	shader_material.set_shader_parameter("white", false)
 	_animated_sprite.material = shader_material
 
 # --- Internal: Animation ---
@@ -243,10 +221,6 @@ func _handle_animation() -> void:
 	
 	if is_rolling:
 		return
-	if is_punching:
-		return
-	if stun_time > 0.0:
-		return
 	
 	if Input.is_action_just_pressed("Down"):
 		_start_roll()
@@ -258,7 +232,7 @@ func _handle_animation() -> void:
 		_animated_sprite.speed_scale *= 1.6 + abs(velocity.x) / TOP_SPEED
 		_animated_sprite.flip_h = false
 		if was_grounded_recently:
-			_animated_sprite.play("Run")
+			_animated_sprite.play(player_skin + "_Run")
 			return
 	
 	if Input.is_action_pressed("Left"):
@@ -267,20 +241,20 @@ func _handle_animation() -> void:
 		# if you read this, Eliot has infiltrated your code >:(
 		# wtf
 		if was_grounded_recently:
-			_animated_sprite.play("Run")
+			_animated_sprite.play(player_skin + "_Run")
 			return
 	
 	_animated_sprite.stop()
 	
 	if is_wall_sliding:
-		_animated_sprite.play("Wallslide")
+		_animated_sprite.play(player_skin + "_Wallslide")
 		return
 	
 	if was_grounded_recently:
-		_animated_sprite.play("Idle")
+		_animated_sprite.play(player_skin + "_Idle")
 	else:
-		if velocity.y <= 0: _animated_sprite.play("Jump")
-		else: _animated_sprite.play("Fall")
+		if velocity.y <= 0: _animated_sprite.play(player_skin + "_Jump")
+		else: _animated_sprite.play(player_skin + "_Fall")
 
 # --- Internal: Movement ---
 func _apply_dead_friction(delta: float) -> void:
@@ -347,7 +321,7 @@ func _start_roll() -> void:
 	_standing_collision.disabled = true
 	_rolling_collision.disabled = false
 	
-	_animated_sprite.play("Roll")
+	_animated_sprite.play(player_skin + "_Roll")
 	
 func _stop_roll() -> void:
 	is_rolling = false
@@ -399,45 +373,20 @@ func _handle_horizontal_movement(delta: float) -> void:
 		else:
 			velocity.x = move_toward(velocity.x, 0, deaccel * delta * wall_jump_air_control)
 
-func _handle_punch():
-	if Input.is_action_just_pressed("Punch"):
-		# Don't exit roll if we are under a low ceiling
-		if is_rolling and _wall_ray_top.is_colliding():
-			return
-			
-		# We can still get pushed into a ceiling by our earnt velocity from the roll
-		if is_rolling and (_wall_ray_right.is_colliding() or _wall_ray_left.is_colliding()):
-			velocity.x = false
-		
-		is_rolling = false
-		is_punching = true
-		_animated_sprite.play("Punch")
-		
-		var direction = -1 if _animated_sprite.flip_h else 1
-		_punch_hitbox.position.x += 400 * direction
-		_punch_hitbox.disabled = false
-		
-		await get_tree().create_timer(0.1).timeout
-		_punch_hitbox.disabled = true
-		_punch_hitbox.position.x -= 400 * direction
-
 # --- Internal: State ---
 func kill() -> void:
-	_animated_sprite.play("Death")
+	_animated_sprite.play(player_skin + "_Death")
 	
 # --- Internal: Multiplayer state ---
 func _set_action_type() -> void:
-	match _animated_sprite.animation:
+	match _animated_sprite.animation.substr(_animated_sprite.animation.find("_") + 3):
 		["Run", "Idle", "Jump", "Fall"]:
+			# These actions will be handled by the physics interpolator
 			action_type = 0
-		"Hurt":
-			action_type = 1
-		"Punch":
-			action_type = 2
 		"Roll":
-			action_type = 3
+			action_type = 1
 		"Wallslide":
-			action_type = 4
+			action_type = 2
 		_:
 			action_type = 0
 
@@ -456,34 +405,21 @@ func _update_multiplayer_state(delta: float) -> void:
 
 # --- Callbacks ---
 func _on_animated_sprite_2d_animation_finished() -> void:
-	match _animated_sprite.animation:
+	match _animated_sprite.animation.substr(_animated_sprite.animation.find("_") + 3):
 		"Roll":
 			# Continue to roll if we are below a roof
 			if is_rolling and _wall_ray_top and _wall_ray_top.is_colliding():
-				_animated_sprite.play("Roll")
+				_animated_sprite.play(player_skin + "_Roll")
 			else:
 				_stop_roll()
-		"Punch":
-			is_punching = false
-			_punch_hitbox.disabled = true
-			_animated_sprite.play("Idle")
 
-# --- Public API: Stun ---
-func stun(time: float) -> bool:
-	if stun_time > 0:
-		return true
-	stun_time = time
-	return false
-
-func process_stun(delta: float) -> bool:
-	stun_time = max(0, stun_time - delta)
-	var is_stunned := stun_time > 0
+func _unhandled_input(event):
+	if not event.is_pressed():
+		return
 	
-	if is_stunned:
-		is_rolling = false
-		var white := (int(floor(stun_time * FLASH_FREQUENCY)) % 2 == 0) if stun_time >= delta else false
-		_animated_sprite.material.set_shader_parameter("white", white)
-	return is_stunned
+	for action in InputMap.get_actions():
+		if Input.is_action_pressed(action):
+			time_since_last_state_emit = MULTIPLAYER_STATE_UPDATE_FREQUENCY
 
 # --- Public API: Knockback ---
 func knockback_player(direction: Vector2, launch_force: float, ignore_current_velocity = true) -> void:

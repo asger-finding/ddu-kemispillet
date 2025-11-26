@@ -40,11 +40,6 @@ enum TypeId {
 	#  }
 	PLAYER_CHANGED_MESSAGE = 52,
 	
-	# payload: {
-	#    player_id: int
-	#  }
-	PLAYER_REMOVED_MESSAGE = 53,
-	
 	# --- SERVER RESPONSE TO PEER ---
 	# payload: {
 	#    result: bool

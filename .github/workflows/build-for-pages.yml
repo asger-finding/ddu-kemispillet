@@ -5,6 +5,9 @@ env:
   GODOT_VERSION: 4.5.1
   PROJECT_PATH: game
 
+permissions:
+  contents: write
+
 jobs:
   export-web:
     name: Web Export
@@ -16,6 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup
         run: |
@@ -29,9 +33,17 @@ jobs:
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Web" ../public/game/index.html
 
-      - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        with:
-          branch: gh-pages
-          folder: public
-          clean: false
+      - name: Push to netlify branch
+        run: |
+          # https://github.com/actions/checkout/issues/363
+          git config --global --add safe.directory "$PWD"
+
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git clone --single-branch --branch netlify https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git netlify-deploy
+          cd netlify-deploy
+          find . -maxdepth 1 ! -name '.' ! -name '..' ! -name '.git' ! -name 'index.html' ! -name 'styles.css' -exec rm -rf {} +
+          cp -r ../public/* .
+          git add .
+          git commit -m "Deploy build from ${{ github.sha }}" || echo "No changes to commit"
+          git push origin netlify

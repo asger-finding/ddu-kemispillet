@@ -22,9 +22,10 @@ func _process(_delta):
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		var result = await post("update_player", {
-			"player_id": MpClient.player_id
-		})
+		MpClient.send_to_server(MpMessage.create_message(MpMessage.TypeId.LEAVE_MESSAGE, {}))
+		# var result = await post("update_player", {
+		# 	"player_id": MpClient.player_id
+		# })
 		get_tree().quit()
 
 func _http_request_completed(result, _response_code, _headers, body):
@@ -89,7 +90,7 @@ func post(method: String, data: Dictionary) -> Dictionary:
 	return await promise.async()
 
 func handle_error(error_message: String) -> void:
-	push_error()
+	push_error(error_message)
 
 func set_server_address(address: String) -> void:
 	server_address = "http://%s:8080/api/Session.php" % address

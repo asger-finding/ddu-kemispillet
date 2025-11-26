@@ -2,8 +2,9 @@ extends CharacterBody2D
 class_name MultiplayerPlayer
 
 # --- State (received from network) ---
-var username: String
+var username: String = ""
 var player_id: int
+var player_skin: String = "Male_1"
 var health := 5
 var action_type := 0
 var network_velocity := Vector2.ZERO
@@ -20,7 +21,7 @@ const RENDER_DELAY := 0.2  # Render 2 state updates behund
 # --- Lifecycle ---
 func _ready() -> void:
 	_standing_collision.disabled = false
-	_username_label.text = ""
+	_username_label.text = username
 
 func _process(_delta: float) -> void:
 	_handle_animation()
@@ -79,32 +80,30 @@ func _handle_animation() -> void:
 			
 			if moving_horizontally and on_ground:
 				_animated_sprite.speed_scale = 1.6 + abs(velocity.x) / 2000.0
-				_animated_sprite.play("Run")
+				_animated_sprite.play(player_skin + "_Run")
 			elif on_ground:
-				_animated_sprite.play("Idle")
+				_animated_sprite.play(player_skin + "_Idle")
 			else:
 				if velocity.y <= 0:
-					_animated_sprite.play("Jump")
+					_animated_sprite.play(player_skin + "_Jump")
 				else:
-					_animated_sprite.play("Fall")
+					_animated_sprite.play(player_skin + "_Fall")
 		1:
-			_animated_sprite.play("Hurt")
+			_animated_sprite.play(player_skin + "_Roll")
 		2:
-			_animated_sprite.play("Punch")
-		3:
-			_animated_sprite.play("Roll")
-		4:
-			_animated_sprite.play("Wallslide")
+			_animated_sprite.play(player_skin + "_Wallslide")
 		_:
 			pass
 
 # --- Network ---
 func set_username(_username: String) -> void:
 	username = _username
-	_username_label.text = username
 
 func set_player_id(_player_id: int) -> void:
 	player_id = _player_id
+
+func set_player_skin(_player_skin: String) -> void:
+	player_skin = _player_skin
 
 func update_state(data: Dictionary) -> void:
 	if data.has("position"):
