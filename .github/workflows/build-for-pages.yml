@@ -31,12 +31,17 @@ jobs:
 
       - name: Deploy to Netlify Branch
         run: |
+          cd "${GITHUB_WORKSPACE}"
+
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+
           git fetch origin
           git switch -C netlify
+
           rm -rf ./*
-          cp -r ../public/* .
+          cp -r public/* .
+
           git add -A
           git commit -m "Deploy" || true
           git push origin netlify --force
