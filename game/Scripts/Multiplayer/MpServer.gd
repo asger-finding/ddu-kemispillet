@@ -3,6 +3,7 @@ extends Node
 const SERVER_PORT := 9090
 
 var _tcp_server := TCPServer.new()
+var active := false
 var _peers: Dictionary[int, Dictionary] = {}
 var _last_peer_id := 0
 
@@ -16,9 +17,11 @@ func create() -> void:
 	var err := _tcp_server.listen(SERVER_PORT, "*")
 	if err == OK:
 		print("MpServer: WebSocket server listening on port %d" % SERVER_PORT)
+		active = true
 		set_process(true)
 	else:
 		push_error("MpServer: Failed to start server on port %d (error %d)" % [SERVER_PORT, err])
+		active = false
 		set_process(false)
 
 func _process(_delta: float) -> void:
@@ -71,7 +74,7 @@ func handle_message(peer_id: int, message: Dictionary) -> void:
 	match type_id:
 		MpMessage.TypeId.HANDSHAKE_MESSAGE:
 			# check token and authenticate
-			var player_id = int(payload["player_id"]) # FIXME validate types
+			var player_id = payload["player_id"]
 			var token = payload["auth_token"]
 			var handshake_result = await Backend.post("make_handshake", { "player_id": player_id, "auth_token": token })
 			var handshaked = !handshake_result["error"] && handshake_result["response"]["ok"]
@@ -84,7 +87,8 @@ func handle_message(peer_id: int, message: Dictionary) -> void:
 			print("Server is returning if peer %s gets handshake: " % peer_id, handshaked)
 			
 			send_to_peer(peer_id, MpMessage.create_message(MpMessage.TypeId.HANDSHAKE_RESULT_MESSAGE, {
-				"result": handshaked
+				"result": handshaked,
+				"player_details": handshake_result["response"]["player_details"]
 			}))
 			
 			if not handshaked: disconnect_peer(peer_id, 1008, "Player failed handshake")
@@ -190,6 +194,7 @@ func shutdown() -> void:
 	for peer_id in _peers.keys():
 		disconnect_peer(peer_id, 1001, "Server shutting down")
 	_tcp_server.stop()
+	active = false
 
 func get_player_state(peer_id: int) -> Dictionary:
 	var player_id = _peers[peer_id].player_details.player_id

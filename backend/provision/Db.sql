@@ -1,6 +1,5 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
 CREATE DATABASE IF NOT EXISTS kemispillet;
 USE kemispillet;
 
@@ -20,9 +19,10 @@ CREATE TABLE IF NOT EXISTS accounts (
 -- Player state (game layer)
 CREATE TABLE IF NOT EXISTS players (
     player_id INT UNSIGNED NOT NULL,
-    filling INT NOT NULL DEFAULT 0,
-    scrap INT NOT NULL DEFAULT 0,
-    inventory VARCHAR(500) DEFAULT NULL,
+    questions_answered INT NOT NULL DEFAULT 0,
+    questions_correct INT NOT NULL DEFAULT 0,
+    runs INT NOT NULL DEFAULT 0,
+    victories INT NOT NULL DEFAULT 0,
     PRIMARY KEY (player_id),
     CONSTRAINT fk_players_account
         FOREIGN KEY (player_id) REFERENCES accounts(player_id)

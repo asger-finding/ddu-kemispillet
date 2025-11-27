@@ -1,0 +1,169 @@
+[gd_scene load_steps=13 format=3 uid="uid://c2bqy2rxogsj1"]
+
+[ext_resource type="Script" uid="uid://cagqhap37ahvq" path="res://Scripts/Interface/StatisticsPopup.gd" id="1_dw08g"]
+[ext_resource type="Texture2D" uid="uid://csjdnunmq48t6" path="res://Assets/Question/Question_frame.png" id="1_lkku1"]
+[ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="2_dw08g"]
+[ext_resource type="Texture2D" uid="uid://p3ef6f1774nm" path="res://Assets/Buttons/retry.png" id="4_06qxe"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_b1t0r"]
+font = ExtResource("2_dw08g")
+font_size = 60
+outline_size = 3
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(4, 4)
+stacked_outline_count = 1
+stacked_outline_0/size = 7
+
+[sub_resource type="LabelSettings" id="LabelSettings_06qxe"]
+font = ExtResource("2_dw08g")
+font_size = 32
+outline_size = 2
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
+stacked_outline_count = 1
+stacked_outline_0/size = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_vxr2m"]
+font = ExtResource("2_dw08g")
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_lkku1"]
+font = ExtResource("2_dw08g")
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_dw08g"]
+font = ExtResource("2_dw08g")
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_pli1t"]
+font = ExtResource("2_dw08g")
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_n4wns"]
+font = ExtResource("2_dw08g")
+font_size = 28
+
+[sub_resource type="LabelSettings" id="LabelSettings_xcf6b"]
+font = ExtResource("2_dw08g")
+font_size = 28
+
+[node name="StatisticsPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_dw08g")
+
+[node name="PopupBackground" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("1_lkku1")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="PopupBackground"]
+layout_mode = 0
+offset_left = 452.0
+offset_top = 53.0
+offset_right = 747.0
+offset_bottom = 136.0
+text = "Statistikker!"
+label_settings = SubResource("LabelSettings_b1t0r")
+
+[node name="GridContainer" type="GridContainer" parent="PopupBackground"]
+layout_mode = 0
+offset_left = 141.0
+offset_top = 159.0
+offset_right = 1006.0
+offset_bottom = 447.0
+columns = 2
+
+[node name="UsernameLabel" type="Label" parent="PopupBackground/GridContainer"]
+layout_mode = 2
+text = "Brugernavn"
+label_settings = SubResource("LabelSettings_06qxe")
+
+[node name="UsernameValue" type="Label" parent="PopupBackground/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "USERNAME"
+label_settings = SubResource("LabelSettings_vxr2m")
+horizontal_alignment = 2
+
+[node name="PlayerIdLabel" type="Label" parent="PopupBackground/GridContainer"]
+layout_mode = 2
+text = "Player ID"
+label_settings = SubResource("LabelSettings_06qxe")
+
+[node name="PlayerIdValue" type="Label" parent="PopupBackground/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_lkku1")
+horizontal_alignment = 2
+
+[node name="GamesStartedLabel" type="Label" parent="PopupBackground/GridContainer"]
+layout_mode = 2
+text = "Spil startet"
+label_settings = SubResource("LabelSettings_06qxe")
+
+[node name="GamesStartedValue" type="Label" parent="PopupBackground/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_dw08g")
+horizontal_alignment = 2
+
+[node name="GamesWonLabel" type="Label" parent="PopupBackground/GridContainer"]
+layout_mode = 2
+text = "Spil vundet"
+label_settings = SubResource("LabelSettings_06qxe")
+
+[node name="GamesWonValue" type="Label" parent="PopupBackground/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_pli1t")
+horizontal_alignment = 2
+
+[node name="QuestionsAnsweredLabel" type="Label" parent="PopupBackground/GridContainer"]
+layout_mode = 2
+text = "Spørgsmål svaret"
+label_settings = SubResource("LabelSettings_06qxe")
+
+[node name="QuestionsAnsweredValue" type="Label" parent="PopupBackground/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_n4wns")
+horizontal_alignment = 2
+
+[node name="QuestionsCorrectLabel" type="Label" parent="PopupBackground/GridContainer"]
+layout_mode = 2
+text = "Spørgsmål besvaret korrekt"
+label_settings = SubResource("LabelSettings_06qxe")
+
+[node name="QuestionsCorrectValue" type="Label" parent="PopupBackground/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+label_settings = SubResource("LabelSettings_xcf6b")
+horizontal_alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PopupBackground/GridContainer"]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="PopupBackground/GridContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 500
+
+[node name="ClosePopupButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 53.0
+offset_right = 2136.0
+offset_bottom = 2101.0
+scale = Vector2(0.04, 0.04)
+texture_normal = ExtResource("4_06qxe")
+
+[connection signal="button_up" from="ClosePopupButton" to="." method="_on_close_popup_button_button_up"]

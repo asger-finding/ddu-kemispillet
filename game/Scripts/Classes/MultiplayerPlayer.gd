@@ -3,7 +3,7 @@ class_name MultiplayerPlayer
 
 # --- State (received from network) ---
 var username: String = ""
-var player_id: int
+var player_id: String
 var player_skin: String = "Male_1"
 var health := 5
 var action_type := 0
@@ -99,7 +99,7 @@ func _handle_animation() -> void:
 func set_username(_username: String) -> void:
 	username = _username
 
-func set_player_id(_player_id: int) -> void:
+func set_player_id(_player_id: String) -> void:
 	player_id = _player_id
 
 func set_player_skin(_player_skin: String) -> void:

@@ -1,71 +1,71 @@
 [gd_scene load_steps=7 format=3 uid="uid://dm7woq1hl8pfa"]
 
 [ext_resource type="Script" uid="uid://dl0cglho8jpui" path="res://Scripts/Overlay.gd" id="1_cpofi"]
+[ext_resource type="Texture2D" uid="uid://diq4q4v5rn78a" path="res://Assets/Processbar/Processbar_outline.png" id="2_4aq1f"]
 [ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="2_u1ayl"]
-[ext_resource type="Texture2D" uid="uid://cpe2c0i8bj32q" path="res://Assets/GameHUD/Filling/frame.png" id="3_ul1va"]
-[ext_resource type="Texture2D" uid="uid://d2butkivrlbho" path="res://Assets/GameHUD/Scrap/frame.png" id="4_m2kru"]
+[ext_resource type="Texture2D" uid="uid://rhn6quuhx04f" path="res://Assets/Processbar/Processbar_filler.png" id="3_kw51o"]
+[ext_resource type="Texture2D" uid="uid://tmx86l552qcg" path="res://Assets/Processbar/Processbar_filler_level.png" id="3_owy8f"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_i0vto"]
+[sub_resource type="LabelSettings" id="LabelSettings_q27oy"]
 font = ExtResource("2_u1ayl")
-font_size = 40
-outline_size = 8
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_3jf1l"]
-font = ExtResource("2_u1ayl")
-font_size = 40
-outline_size = 8
-outline_color = Color(0, 0, 0, 1)
+font_size = 80
+font_color = Color(0, 1, 0.25, 1)
+outline_size = 5
+outline_color = Color(0.19039999, 0.56, 0.41215998, 1)
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(5, 5)
+stacked_outline_count = 1
+stacked_outline_0/size = 15
 
 [node name="GameHUD" type="CanvasLayer"]
 
 [node name="Game Overlay" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1016.0
-offset_top = 10.0
-offset_right = 1056.0
-offset_bottom = 50.0
+offset_left = 985.0
+offset_top = 9.0
+offset_right = 1025.0
+offset_bottom = 49.0
 script = ExtResource("1_cpofi")
+
+[node name="LevelProgress" type="TextureProgressBar" parent="Game Overlay"]
+layout_mode = 0
+offset_left = -690.0
+offset_top = 589.0
+offset_right = 2145.0
+offset_bottom = 977.0
+scale = Vector2(0.2, 0.2)
+value = 60.0
+texture_under = ExtResource("2_4aq1f")
+texture_progress = ExtResource("3_owy8f")
+
+[node name="TimeUntilNextQuestion" type="TextureProgressBar" parent="Game Overlay"]
+layout_mode = 0
+offset_left = -536.0
+offset_top = 564.0
+offset_right = 2299.0
+offset_bottom = 952.0
+scale = Vector2(0.1, 0.1)
+value = 50.0
+texture_under = ExtResource("2_4aq1f")
+texture_progress = ExtResource("3_kw51o")
 
 [node name="HealthContainer" type="HBoxContainer" parent="Game Overlay"]
 layout_mode = 0
-offset_left = -183.0
+offset_left = -6.0000134
 offset_top = 30.0
-offset_right = -143.0
+offset_right = 33.999985
 offset_bottom = 70.0
 scale = Vector2(0.35, 0.35)
 alignment = 2
 
-[node name="FillingContainer" type="HBoxContainer" parent="Game Overlay"]
+[node name="CountdownLabel" type="Label" parent="Game Overlay"]
+unique_name_in_owner = true
 layout_mode = 0
-offset_left = 24.0
-offset_top = 54.0
-offset_right = 166.0
-offset_bottom = 137.0
-
-[node name="FillingLabel" type="Label" parent="Game Overlay/FillingContainer"]
-layout_mode = 2
-text = "0"
-label_settings = SubResource("LabelSettings_i0vto")
-
-[node name="FillingIcon" type="TextureRect" parent="Game Overlay/FillingContainer"]
-layout_mode = 2
-texture = ExtResource("3_ul1va")
-expand_mode = 2
-
-[node name="ScrapContainer" type="HBoxContainer" parent="Game Overlay"]
-layout_mode = 0
-offset_top = 125.0
-offset_right = 141.0
-offset_bottom = 208.0
-
-[node name="ScrapLabel" type="Label" parent="Game Overlay/ScrapContainer"]
-layout_mode = 2
-text = "0"
-label_settings = SubResource("LabelSettings_3jf1l")
-
-[node name="ScrapIcon" type="TextureRect" parent="Game Overlay/ScrapContainer"]
-layout_mode = 2
-texture = ExtResource("4_m2kru")
-expand_mode = 2
+offset_left = -755.0
+offset_top = 248.0
+offset_right = -65.0
+offset_bottom = 358.0
+text = "Spil begynder om x s..."
+label_settings = SubResource("LabelSettings_q27oy")
+horizontal_alignment = 1
