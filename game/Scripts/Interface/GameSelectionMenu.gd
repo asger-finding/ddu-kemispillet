@@ -1,5 +1,6 @@
 extends Control
 
+@onready var _play_button: TextureButton = %PlayButton
 @onready var _object_container: HBoxContainer = %ObjectContainer
 @onready var _scroll_container: ScrollContainer = %ScrollContainer
 @onready var _username_label: Label = %UsernameLabel
@@ -12,6 +13,8 @@ func _ready() -> void:
 	_set_selection()
 	if not GameManager.player_details.is_empty():
 		_username_label.text = GameManager.player_details.username
+	
+	if not MpServer.active: _play_button.disabled = true
 
 func _set_selection():
 	await get_tree().create_timer(0.01).timeout
@@ -46,6 +49,7 @@ func _tween_scroll(scrollValue):
 
 func _select_deselect_highlight():
 	var selectedNode = get_selected_value()
+	GameManager.player_skin = selectedNode.name
 	
 	for child in _object_container.get_children():
 		if child is not TextureRect: continue
@@ -63,8 +67,7 @@ func get_selected_value():
 			return child
 
 func _on_play_button_button_up() -> void:
-	var player_skin = get_selected_value().name;
-	GameManager.join_game(player_skin)
+	GameManager.join_game()
 
 func _on_log_out_button_button_up() -> void:
 	MpClient.send_to_server(MpMessage.create_message(MpMessage.TypeId.LEAVE_MESSAGE, {}))

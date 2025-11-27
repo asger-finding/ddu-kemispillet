@@ -5,4 +5,4 @@ func _ready() -> void:
 	
 	# Spawn enqueued players
 	for player_id in GameManager.other_players:
-		GameManager.spawn_other_player(player_id, self, Constants.SPAWN_POSITION)
+		GameManager.spawn_other_player_sprite(player_id, self, Constants.SPAWN_POSITION)

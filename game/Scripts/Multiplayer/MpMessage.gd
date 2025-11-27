@@ -38,6 +38,11 @@ enum TypeId {
 	#  }
 	PLAYER_CHANGED_MESSAGE = 51,
 	
+	# payload: {
+	#    start_time: float # to syncronize player starts
+	# }
+	GAME_STARTING = 52,
+	
 	# --- SERVER RESPONSE TO PEER ---
 	# payload: {
 	#    result: bool

@@ -3,6 +3,7 @@ extends Node
 const SERVER_PORT := 9090
 
 var _tcp_server := TCPServer.new()
+var active := false
 var _peers: Dictionary[int, Dictionary] = {}
 var _last_peer_id := 0
 
@@ -16,9 +17,11 @@ func create() -> void:
 	var err := _tcp_server.listen(SERVER_PORT, "*")
 	if err == OK:
 		print("MpServer: WebSocket server listening on port %d" % SERVER_PORT)
+		active = true
 		set_process(true)
 	else:
 		push_error("MpServer: Failed to start server on port %d (error %d)" % [SERVER_PORT, err])
+		active = false
 		set_process(false)
 
 func _process(_delta: float) -> void:
@@ -191,6 +194,7 @@ func shutdown() -> void:
 	for peer_id in _peers.keys():
 		disconnect_peer(peer_id, 1001, "Server shutting down")
 	_tcp_server.stop()
+	active = false
 
 func get_player_state(peer_id: int) -> Dictionary:
 	var player_id = _peers[peer_id].player_details.player_id

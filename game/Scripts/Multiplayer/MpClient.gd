@@ -9,6 +9,7 @@ var auth_token: String = ""
 signal _handshake
 signal _player_list_changed
 signal _player_changed
+signal _game_starting
 
 func connect_to_host() -> Error:
 	if not socket_address: return Error.FAILED
@@ -33,7 +34,7 @@ func _process(_delta: float) -> void:
 			return
 		
 		WebSocketPeer.STATE_CLOSING, WebSocketPeer.STATE_CLOSED:
-			if MpServer._tcp_server.get_local_port() != 0: MpServer._tcp_server.stop()
+			if MpServer.active: MpServer.shutdown()
 			Backend.server_address = ""
 			
 			state = Constants.OFFLINE
@@ -74,6 +75,10 @@ func handle_message(message: Dictionary) -> void:
 			if payload.health && payload.health is float:
 				payload.health = int(payload.health)
 			_player_changed.emit(payload)
+		
+		MpMessage.TypeId.GAME_STARTING:
+			var start_time: float = payload.start_time
+			_game_starting.emit(start_time)
 		
 		_:
 			return

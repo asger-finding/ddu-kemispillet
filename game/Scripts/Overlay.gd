@@ -1,14 +1,18 @@
 extends Control
 
 @onready var hearts_container = $HealthContainer
-@onready var filling_label = $FillingContainer/FillingLabel
-@onready var scrap_label = $ScrapContainer/ScrapLabel
+@onready var _countdown_label: Label = %CountdownLabel
 
 var last_health = -1
-var last_filling = -1
-var last_scrap = -1
 
 func _process(_delta):
+	var countdown_time = GameManager.get_countdown_remaining()
+	if countdown_time > 0.0:
+		_countdown_label.text = "Spil begynder om %s s ..." % floori(countdown_time)
+		_countdown_label.show()
+	else:
+		_countdown_label.hide()
+	
 	if (not GameManager.player_exists): return
 	
 	var current = GameManager.player.get_health()
@@ -52,5 +56,3 @@ func update_health():
 
 func update_countdown():
 	pass
-	# filling_label.text = str(Global.Inventory.filling)
-	# scrap_label.text   = str(Global.Inventory.scrap)
