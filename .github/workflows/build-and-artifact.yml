@@ -27,7 +27,7 @@ jobs:
         run: |
           mkdir -p out
           cd $PROJECT_PATH
-          godot --headless --verbose --export-release "Linux/X11" ../out/ddu-kemispillet.x86_64
+          godot --headless --verbose --export-release "Linux" ../out/ddu-kemispillet.x86_64
 
       - name: Upload Linux Build
         uses: actions/upload-artifact@v4
