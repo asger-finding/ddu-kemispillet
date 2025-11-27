@@ -1,17 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dm7woq1hl8pfa"]
+[gd_scene load_steps=5 format=3 uid="uid://dm7woq1hl8pfa"]
 
 [ext_resource type="Script" uid="uid://dl0cglho8jpui" path="res://Scripts/Overlay.gd" id="1_cpofi"]
 [ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="2_u1ayl"]
-[ext_resource type="Texture2D" uid="uid://cpe2c0i8bj32q" path="res://Assets/GameHUD/Filling/frame.png" id="3_ul1va"]
-[ext_resource type="Texture2D" uid="uid://d2butkivrlbho" path="res://Assets/GameHUD/Scrap/frame.png" id="4_m2kru"]
+[ext_resource type="Texture2D" uid="uid://dtwpvi3jbnbfi" path="res://Assets/Overlay/Question.png" id="3_q27oy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_i0vto"]
-font = ExtResource("2_u1ayl")
-font_size = 40
-outline_size = 8
-outline_color = Color(0, 0, 0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_3jf1l"]
 font = ExtResource("2_u1ayl")
 font_size = 40
 outline_size = 8
@@ -22,50 +15,38 @@ outline_color = Color(0, 0, 0, 1)
 [node name="Game Overlay" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1016.0
-offset_top = 10.0
-offset_right = 1056.0
-offset_bottom = 50.0
+offset_left = 985.0
+offset_top = 9.0
+offset_right = 1025.0
+offset_bottom = 49.0
 script = ExtResource("1_cpofi")
 
 [node name="HealthContainer" type="HBoxContainer" parent="Game Overlay"]
 layout_mode = 0
-offset_left = -183.0
+offset_left = -6.0000134
 offset_top = 30.0
-offset_right = -143.0
+offset_right = 33.999985
 offset_bottom = 70.0
 scale = Vector2(0.35, 0.35)
 alignment = 2
 
-[node name="FillingContainer" type="HBoxContainer" parent="Game Overlay"]
+[node name="CountdownContainer" type="HBoxContainer" parent="Game Overlay"]
 layout_mode = 0
-offset_left = 24.0
-offset_top = 54.0
-offset_right = 166.0
-offset_bottom = 137.0
+offset_left = 16.0
+offset_top = 62.0
+offset_right = 182.0
+offset_bottom = 122.0
 
-[node name="FillingLabel" type="Label" parent="Game Overlay/FillingContainer"]
+[node name="CountdownLabel" type="Label" parent="Game Overlay/CountdownContainer"]
 layout_mode = 2
-text = "0"
+text = "60 s"
 label_settings = SubResource("LabelSettings_i0vto")
 
-[node name="FillingIcon" type="TextureRect" parent="Game Overlay/FillingContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Game Overlay/CountdownContainer"]
 layout_mode = 2
-texture = ExtResource("3_ul1va")
-expand_mode = 2
+theme_override_constants/margin_right = 5
 
-[node name="ScrapContainer" type="HBoxContainer" parent="Game Overlay"]
-layout_mode = 0
-offset_top = 125.0
-offset_right = 141.0
-offset_bottom = 208.0
-
-[node name="ScrapLabel" type="Label" parent="Game Overlay/ScrapContainer"]
+[node name="CountdownIcon" type="TextureRect" parent="Game Overlay/CountdownContainer"]
 layout_mode = 2
-text = "0"
-label_settings = SubResource("LabelSettings_3jf1l")
-
-[node name="ScrapIcon" type="TextureRect" parent="Game Overlay/ScrapContainer"]
-layout_mode = 2
-texture = ExtResource("4_m2kru")
+texture = ExtResource("3_q27oy")
 expand_mode = 2

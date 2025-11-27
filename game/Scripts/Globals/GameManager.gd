@@ -8,7 +8,17 @@ var player_exists := false
 var player_skin: String
 var in_game := false
 
-# [player_id: int]: MultiplayerPlayer
+# {
+#    "player_id": String,
+#    "username": String,
+#    "questions_answered": int,
+#    "questions_correct": int,
+#    "runs": int,
+#    "victories": int,
+#  }
+var player_details := {}
+
+# [player_id: String]: MultiplayerPlayer
 var other_players = {}
 
 func _ready() -> void:
@@ -23,7 +33,7 @@ func spawn_player(parent: Node, position: Vector2):
 	parent.add_child(player)
 	player.position = position
 
-func spawn_other_player(player_id: int, parent: Node2D, position: Vector2) -> void:
+func spawn_other_player(player_id: String, parent: Node2D, position: Vector2) -> void:
 	var other_player = other_players[player_id]
 	if other_player != null and not other_player.is_inside_tree():
 		parent.add_child(other_player)
@@ -39,8 +49,9 @@ func join_game(skin: String):
 func emit_player_state(state):
 	MpClient.send_to_server(MpMessage.create_message(MpMessage.TypeId.STATE_UPDATED_MESSAGE, state))
 
-func _on_handshaked(success: bool) -> void:
-	if success: SceneManager.load_scene("Menu/LobbyMenu")
+func _on_handshaked(success: bool, incoming_player_details: Dictionary) -> void:
+	player_details = incoming_player_details
+	if success: SceneManager.load_scene("Menu/LoggedInMenu")
 	else: SceneManager.load_scene("Menu/ConfigureConnectionMenu")
 
 func _player_list_changed(list: Array):
@@ -58,7 +69,10 @@ func _player_list_changed(list: Array):
 	# add new
 	for entry in list:
 		var player_id = entry.player_id
-		if player_id == MpClient.player_id: continue
+		if player_id == MpClient.player_id:
+			GameManager.player_details = entry
+			continue
+		
 		if not other_players.has(player_id):
 			var other_player = MULTIPLAYER_PLAYER_SCENE.instantiate()
 			other_player.set_player_id(player_id)

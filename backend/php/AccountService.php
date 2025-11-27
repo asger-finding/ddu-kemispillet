@@ -56,12 +56,13 @@ function register($conn, $data) {
 
         // Return the created player
         $player = [
-            'player_id' => $player_id,
+            'player_id' => strval($player_id),
             'username' => $username,
             'auth_token' => $auth_token,
-            'filling' => 0,
-            'scrap' => 0,
-            'inventory' => null
+            'questions_answered' => 0,
+            'questions_correct' => 0,
+            'runs' => 0,
+            'victories' => 0
         ];
 
         response(1, $player);
@@ -92,7 +93,7 @@ function login($conn, $data) {
     // Get account and player data
     $stmt = $conn->prepare("
         SELECT a.player_id, a.username, a.password_hash, a.auth_token, a.status, 
-               p.filling, p.scrap, p.inventory
+               p.questions_answered, p.questions_correct, p.runs, p.victories
         FROM accounts a
         INNER JOIN players p ON a.player_id = p.player_id
         WHERE a.username = ?
@@ -128,12 +129,13 @@ function login($conn, $data) {
 
     // Return player data
     $player = [
-        'player_id' => $row['player_id'],
+        'player_id' => strval($row['player_id']),
         'username' => $row['username'],
         'auth_token' => $row['auth_token'],
-        'filling' => $row['filling'],
-        'scrap' => $row['scrap'],
-        'inventory' => $row['inventory']
+        'questions_answered' => $row['questions_answered'],
+        'questions_correct' => $row['questions_correct'],
+        'runs' => $row['runs'],
+        'victories' => $row['victories']
     ];
 
     response(1, $player);
@@ -206,7 +208,7 @@ function get_player_details($conn, $data) {
     
     $stmt = $conn->prepare("
         SELECT a.player_id, a.username, 
-               p.filling, p.scrap, p.inventory
+               p.questions_answered, p.questions_correct, p.runs, p.victories
         FROM accounts a
         INNER JOIN players p ON a.player_id = p.player_id
         WHERE a.player_id = ?
@@ -225,11 +227,12 @@ function get_player_details($conn, $data) {
     $stmt->close();
     
     $player = [
-        'player_id' => $row['player_id'],
+        'player_id' => strval($row['player_id']),
         'username' => $row['username'],
-        'filling' => $row['filling'],
-        'scrap' => $row['scrap'],
-        'inventory' => $row['inventory']
+        'questions_answered' => $row['questions_answered'],
+        'questions_correct' => $row['questions_correct'],
+        'runs' => $row['runs'],
+        'victories' => $row['victories']
     ];
     
     response(1, $player);
@@ -252,7 +255,7 @@ function make_handshake($conn, $data) {
     
     $stmt = $conn->prepare("
         SELECT a.player_id, a.username, 
-               p.filling, p.scrap, p.inventory
+               p.questions_answered, p.questions_correct, p.runs, p.victories
         FROM accounts a
         INNER JOIN players p ON a.player_id = p.player_id
         WHERE a.player_id = ? AND a.auth_token = ?
@@ -264,7 +267,7 @@ function make_handshake($conn, $data) {
     
     if ($result->num_rows === 0) {
         $stmt->close();
-        response(1, ['ok' => false]);
+        response(1, ['ok' => false, 'player_details' => []]);
         return;
     }
     
@@ -272,11 +275,12 @@ function make_handshake($conn, $data) {
     $stmt->close();
     
     $player_details = [
-        'player_id' => $row['player_id'],
+        'player_id' => strval($row['player_id']),
         'username' => $row['username'],
-        'filling' => $row['filling'],
-        'scrap' => $row['scrap'],
-        'inventory' => $row['inventory']
+        'questions_answered' => $row['questions_answered'],
+        'questions_correct' => $row['questions_correct'],
+        'runs' => $row['runs'],
+        'victories' => $row['victories']
     ];
     
     response(1, ['ok' => true, 'player_details' => $player_details]);

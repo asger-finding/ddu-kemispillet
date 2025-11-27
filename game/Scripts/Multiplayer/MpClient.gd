@@ -3,8 +3,8 @@ extends Node
 var socket := WebSocketPeer.new()
 var state = Constants.OFFLINE
 var socket_address: String = ""
-var player_id: int
-var auth_token: String
+var player_id: String = ""
+var auth_token: String = ""
 
 signal _handshake
 signal _player_list_changed
@@ -33,8 +33,16 @@ func _process(_delta: float) -> void:
 			return
 		
 		WebSocketPeer.STATE_CLOSING, WebSocketPeer.STATE_CLOSED:
+			if MpServer._tcp_server.get_local_port() != 0: MpServer._tcp_server.stop()
+			Backend.server_address = ""
+			
 			state = Constants.OFFLINE
 			socket_address = ""
+			player_id = ""
+			auth_token = ""
+			
+			SceneManager.load_scene("Menu/ConfigureConnectionMenu")
+			
 			set_process(false)
 			return
 
@@ -51,23 +59,18 @@ func handle_message(message: Dictionary) -> void:
 	match type_id:
 		MpMessage.TypeId.HANDSHAKE_RESULT_MESSAGE:
 			var ok: bool = payload.result
+			var player_details: Dictionary = payload.player_details
 			
 			if ok:
 				state = Constants.HANDSHAKED
 			else:
 				socket.close()
-				Backend.server_address = ""
-			_handshake.emit(ok)
+			_handshake.emit(ok, player_details)
 		
 		MpMessage.TypeId.PLAYER_LIST_CHANGED_MESSAGE:
-			for player_detail in payload.player_details:
-				if player_detail.player_id and player_detail.player_id is float:
-					player_detail.player_id = int(player_detail.player_id)
 			_player_list_changed.emit(payload.player_details)
 		
 		MpMessage.TypeId.PLAYER_CHANGED_MESSAGE:
-			if payload.player_id && payload.player_id is float:
-				payload.player_id = int(payload.player_id)
 			if payload.health && payload.health is float:
 				payload.health = int(payload.health)
 			_player_changed.emit(payload)
@@ -82,7 +85,7 @@ func send_to_server(text: String) -> void:
 	socket.send_text(text)
 
 func handshake() -> bool:
-	assert(player_id, "Client tried to handshake before player_id was set")
+	assert(player_id != "", "Client tried to handshake before player_id was set")
 
 	var promise = Promise.new()
 	_handshake.connect(func(ok): promise.set_result(ok))

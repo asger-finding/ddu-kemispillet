@@ -50,7 +50,7 @@ func update_health():
 		hearts_container.add_child(holder)
 		hearts_container.move_child(holder, 0)
 
-func update_collectibles():
+func update_countdown():
 	pass
 	# filling_label.text = str(Global.Inventory.filling)
 	# scrap_label.text   = str(Global.Inventory.scrap)

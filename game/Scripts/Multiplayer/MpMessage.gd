@@ -3,8 +3,8 @@ extends Node
 enum TypeId {
 	# --- PEER TO SERVER ---
 	# payload: {
-	#    player_id: string,
-	#    auth_token: string
+	#    player_id: String,
+	#    auth_token: String
 	#  }
 	HANDSHAKE_MESSAGE = 1,
 	
@@ -23,13 +23,11 @@ enum TypeId {
 	STATE_UPDATED_MESSAGE = 4,
 	
 	# --- SERVER TO PEER ---
-	# payload: {} # TODO: Something here
-	WORLD_UPDATED_MESSAGE = 50,
 	
 	# payload: {
-	#    player_details: <player_id: int, username: string>[]
+	#    player_details: <player_id: String, username: string>[]
 	# }
-	PLAYER_LIST_CHANGED_MESSAGE = 51,
+	PLAYER_LIST_CHANGED_MESSAGE = 50,
 	
 	# payload: {
 	#    player_id: int,
@@ -38,7 +36,7 @@ enum TypeId {
 	#    action_type: int,
 	#    health: int
 	#  }
-	PLAYER_CHANGED_MESSAGE = 52,
+	PLAYER_CHANGED_MESSAGE = 51,
 	
 	# --- SERVER RESPONSE TO PEER ---
 	# payload: {

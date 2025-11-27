@@ -1,0 +1,287 @@
+[gd_scene load_steps=23 format=3 uid="uid://dgfpf7rgi4ty4"]
+
+[ext_resource type="Script" uid="uid://bcti3fm7f1n3y" path="res://Scripts/Interface/GameSelectionMenu.gd" id="1_3jtl5"]
+[ext_resource type="Texture2D" uid="uid://cunjoabp2v60q" path="res://Assets/Game voting menu/Frame.png" id="2_8p5sp"]
+[ext_resource type="Texture2D" uid="uid://02npewgs7j2x" path="res://Assets/Lobby menu/Character change/Left_default.png" id="2_f5ppx"]
+[ext_resource type="Texture2D" uid="uid://b4djb12gv2upj" path="res://Assets/Sprites/Player/Male_1/character.png" id="3_p86mg"]
+[ext_resource type="Texture2D" uid="uid://cnf0moeayw3td" path="res://Assets/Sprites/Player/Male_2/character.png" id="4_36tbd"]
+[ext_resource type="Texture2D" uid="uid://w158v0gc3nxe" path="res://Assets/Sprites/Player/Female_1/character.png" id="5_n0reu"]
+[ext_resource type="Texture2D" uid="uid://cir60rixyutwe" path="res://Assets/Sprites/Player/Female_2/character.png" id="6_obpsm"]
+[ext_resource type="Texture2D" uid="uid://b07r8nueb1qmj" path="res://Assets/Lobby menu/Character change/Right_default.png" id="7_8p5sp"]
+[ext_resource type="Texture2D" uid="uid://denhna6u4ff6w" path="res://Assets/Lobby menu/Play_default.png" id="8_fmevp"]
+[ext_resource type="Texture2D" uid="uid://b0x3vts4trlp1" path="res://Assets/Lobby menu/Logo.png" id="9_0stri"]
+[ext_resource type="Texture2D" uid="uid://baprgko4io40b" path="res://Assets/Lobby menu/Play_pressed.png" id="9_36tbd"]
+[ext_resource type="Texture2D" uid="uid://csqrkmytivfym" path="res://Assets/Lobby menu/Statistics_default.png" id="9_p86mg"]
+[ext_resource type="Texture2D" uid="uid://chev2txc602me" path="res://Assets/Lobby menu/Logout_default.png" id="10_36tbd"]
+[ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="10_cid7x"]
+[ext_resource type="Texture2D" uid="uid://cncsx5nvhq4pp" path="res://Assets/Lobby menu/Statistics_presssed.png" id="11_n0reu"]
+[ext_resource type="Texture2D" uid="uid://cbgw6x8lx1aty" path="res://Assets/Lobby menu/Logout_pressed.png" id="13_obpsm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bpkox"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h880y"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3ejsg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8p5sp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_obpsm"]
+font = ExtResource("10_cid7x")
+font_size = 34
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(2, 2)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gf1n5"]
+font = ExtResource("10_cid7x")
+font_size = 80
+font_color = Color(0, 0.513726, 0.854902, 1)
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 6
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(6, 6)
+
+[node name="LobbyMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+scale = Vector2(1, 0.9968454)
+script = ExtResource("1_3jtl5")
+
+[node name="PlayContainer" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_bpkox")
+
+[node name="ClosetTexture" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = 68.215
+offset_right = 380.0
+offset_bottom = 538.215
+texture = ExtResource("2_8p5sp")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CarouselContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_h880y")
+
+[node name="MarginContainer" type="MarginContainer" parent="CarouselContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CarouselContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CarouselContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 50
+
+[node name="PrevButtonTexture" type="TextureRect" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(70, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("2_f5ppx")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="PreviousButton" type="Button" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/PrevButtonTexture"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -2.0
+offset_bottom = -2.8924255
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ejsg")
+
+[node name="PanelContainer" type="PanelContainer" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_8p5sp")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 3
+
+[node name="ObjectContainer" type="HBoxContainer" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_constants/separation = 25
+
+[node name="Male_1" type="TextureRect" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/ScrollContainer/ObjectContainer"]
+custom_minimum_size = Vector2(100, 359)
+layout_mode = 2
+texture = ExtResource("3_p86mg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Male_2" type="TextureRect" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/ScrollContainer/ObjectContainer"]
+custom_minimum_size = Vector2(100, 359)
+layout_mode = 2
+texture = ExtResource("4_36tbd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Female_1" type="TextureRect" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/ScrollContainer/ObjectContainer"]
+custom_minimum_size = Vector2(100, 359)
+layout_mode = 2
+texture = ExtResource("5_n0reu")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Female_2" type="TextureRect" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/ScrollContainer/ObjectContainer"]
+custom_minimum_size = Vector2(100, 359)
+layout_mode = 2
+texture = ExtResource("6_obpsm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/ScrollContainer/ObjectContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 70
+
+[node name="NextButtonTexture" type="TextureRect" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+texture = ExtResource("7_8p5sp")
+expand_mode = 3
+
+[node name="NextButton" type="Button" parent="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/NextButtonTexture"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_3ejsg")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3ejsg")
+
+[node name="UsernameLabel" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 63.0
+offset_top = 99.31329
+offset_right = 318.0
+offset_bottom = 152.33228
+text = "USERNAME"
+label_settings = SubResource("LabelSettings_obpsm")
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 4
+
+[node name="PlayButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 848.0
+offset_top = 195.6171
+offset_right = 2896.0
+offset_bottom = 1253.6171
+scale = Vector2(0.1, 0.1)
+texture_normal = ExtResource("8_fmevp")
+texture_pressed = ExtResource("9_36tbd")
+
+[node name="StatisticsButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 848.0
+offset_top = 280.8861
+offset_right = 2896.0
+offset_bottom = 1338.8861
+scale = Vector2(0.1, 0.1)
+texture_normal = ExtResource("9_p86mg")
+texture_pressed = ExtResource("11_n0reu")
+
+[node name="LogOutButton" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 848.0
+offset_top = 365.15195
+offset_right = 2896.0
+offset_bottom = 1423.152
+scale = Vector2(0.1, 0.1)
+texture_normal = ExtResource("10_36tbd")
+texture_pressed = ExtResource("13_obpsm")
+
+[node name="SelectionMarker" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -376.0
+offset_top = -2.5
+offset_right = -371.0
+offset_bottom = 2.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="KemispilletLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 366.0
+offset_top = 85.268974
+offset_right = 822.0
+offset_bottom = 195.26898
+theme_override_fonts/font = ExtResource("10_cid7x")
+theme_override_font_sizes/font_size = 70
+text = "Kemispillet"
+label_settings = SubResource("LabelSettings_gf1n5")
+horizontal_alignment = 1
+
+[node name="GameLogo" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 425.0
+offset_top = 172.5443
+offset_right = 777.0
+offset_bottom = 483.52533
+texture = ExtResource("9_0stri")
+expand_mode = 2
+stretch_mode = 5
+
+[connection signal="pressed" from="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/PrevButtonTexture/PreviousButton" to="." method="_on_previous_button_pressed"]
+[connection signal="pressed" from="CarouselContainer/MarginContainer/VBoxContainer/HBoxContainer/NextButtonTexture/NextButton" to="." method="_on_next_button_pressed"]
+[connection signal="button_up" from="PlayButton" to="." method="_on_play_button_button_up"]
+[connection signal="button_up" from="StatisticsButton" to="." method="_on_statistics_button_button_up"]
+[connection signal="button_up" from="LogOutButton" to="." method="_on_log_out_button_button_up"]

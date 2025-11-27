@@ -29,7 +29,7 @@ var last_multiplayer_state: Dictionary
 var shader_material: ShaderMaterial
 
 # --- Player constants ---
-const HEALTH := 5
+const HEALTH := 3
 const MAX_JUMPS := 2
 const START_SPEED := 400.0
 const TOP_SPEED := 2000.0

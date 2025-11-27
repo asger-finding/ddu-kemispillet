@@ -1,7 +1,7 @@
 extends Node
 
 # Scenes
-const DEFAULT_SCENE = "Menu/PlayModeSelectionMenu"
+const DEFAULT_SCENE = "Menu/ConfigureConnectionMenu"
 
 # World
 const GRAVITY := 6500.0

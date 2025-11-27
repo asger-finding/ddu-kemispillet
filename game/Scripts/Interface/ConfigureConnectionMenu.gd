@@ -1,14 +1,33 @@
 extends Node2D
 
-@onready var _connect_address_input: LineEdit = $"PanelContainer/VBoxContainer/HBoxContainer/VBoxContainer/ConnectAddressInput"
-@onready var _error_message: Label = $"ErrorMessage"
+@onready var _connect_address_input: LineEdit = %ConnectAddressInput
+@onready var _join_options: HBoxContainer = %JoinOptions
+@onready var _host_container: MarginContainer = %HostContainer
+@onready var _error_message: Label = %ErrorMessage
+
+var http_request := HTTPRequest.new()
 
 func _ready() -> void:
+	toggle_host_button()
+	
 	var config = ConfigFile.new()
 	if config.load("user://settings.cfg") == OK:
 		_connect_address_input.text = config.get_value("connection", "connect_address", "")
 	
 	_error_message.visible = false
+
+func toggle_host_button():
+	_join_options.hide()
+	add_child(http_request)
+	http_request.connect("request_completed", Callable(self, "_http_request_completed"))
+	http_request.request("http://localhost:8080/api/Health.php")
+
+func _http_request_completed(_result, response_code, _headers, body):
+	if response_code == 200 and body.get_string_from_utf8() == "OK": _host_container.show()
+	else: _host_container.hide()
+	
+	_join_options.show()
+	http_request.queue_free()
 
 func _on_host_button_button_up() -> void:
 	MpServer.create()

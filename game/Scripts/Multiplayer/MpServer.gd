@@ -71,7 +71,7 @@ func handle_message(peer_id: int, message: Dictionary) -> void:
 	match type_id:
 		MpMessage.TypeId.HANDSHAKE_MESSAGE:
 			# check token and authenticate
-			var player_id = int(payload["player_id"]) # FIXME validate types
+			var player_id = payload["player_id"]
 			var token = payload["auth_token"]
 			var handshake_result = await Backend.post("make_handshake", { "player_id": player_id, "auth_token": token })
 			var handshaked = !handshake_result["error"] && handshake_result["response"]["ok"]
@@ -84,7 +84,8 @@ func handle_message(peer_id: int, message: Dictionary) -> void:
 			print("Server is returning if peer %s gets handshake: " % peer_id, handshaked)
 			
 			send_to_peer(peer_id, MpMessage.create_message(MpMessage.TypeId.HANDSHAKE_RESULT_MESSAGE, {
-				"result": handshaked
+				"result": handshaked,
+				"player_details": handshake_result["response"]["player_details"]
 			}))
 			
 			if not handshaked: disconnect_peer(peer_id, 1008, "Player failed handshake")
