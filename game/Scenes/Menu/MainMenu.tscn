@@ -11,10 +11,13 @@ bg_color = Color(1, 1, 1, 1)
 font_size = 26
 font_color = Color(0.3779188, 0.3779189, 0.37791875, 1)
 
-[node name="MainMenu" type="Node2D"]
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("1_853f1")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_mj0i0")

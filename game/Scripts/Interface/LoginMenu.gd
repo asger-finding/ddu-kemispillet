@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 @onready var _username_input: LineEdit = %UsernameInput
 @onready var _password_input: LineEdit = %PasswordInput

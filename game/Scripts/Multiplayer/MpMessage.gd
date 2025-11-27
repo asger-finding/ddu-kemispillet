@@ -26,7 +26,7 @@ enum TypeId {
 	
 	# payload: {
 	#    player_details: <player_id: String, username: string>[]
-	# }
+	#  }
 	PLAYER_LIST_CHANGED_MESSAGE = 50,
 	
 	# payload: {
@@ -40,8 +40,14 @@ enum TypeId {
 	
 	# payload: {
 	#    start_time: float # to syncronize player starts
-	# }
+	#    time_sent: float # to account for the ping diff
+	#  }
 	GAME_STARTING = 52,
+	
+	# payload: {
+	#    key: int
+	#  }
+	NEW_QUESTION = 53,
 	
 	# --- SERVER RESPONSE TO PEER ---
 	# payload: {

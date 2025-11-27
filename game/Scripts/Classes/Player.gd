@@ -8,6 +8,8 @@ var player_skin = "Female_1"
 var is_rolling := false
 var is_wall_sliding = false
 var did_wall_jump := false
+var frozen := false
+var saved_velocity := Vector2.ZERO
 var slide_dir = 0
 var wall_jump_air_control := 1.0
 var ground_buffer_time: float = 0.05
@@ -57,6 +59,10 @@ func _ready() -> void:
 	_setup_shader()
 
 func _process(delta: float) -> void:
+	if frozen:
+		move_and_slide()
+		return
+	
 	move_and_slide()
 	
 	if not is_alive():
@@ -78,7 +84,9 @@ func _process(delta: float) -> void:
 	_set_action_type()
 	_update_multiplayer_state(delta)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(delta):
+	if frozen:
+		return
 	_apply_dead_friction(delta)
 	_apply_gravity(delta)
 	
@@ -94,6 +102,15 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_rolling:
 		_handle_horizontal_movement(delta)
+
+func freeze_player():
+	frozen = true
+	saved_velocity = velocity
+	velocity = Vector2.ZERO
+
+func unfreeze_player():
+	frozen = false
+	velocity = saved_velocity
 
 # --- Internal: Shader ---
 func _setup_shader() -> void:

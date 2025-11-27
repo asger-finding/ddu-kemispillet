@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 
 @onready var _connect_address_input: LineEdit = %ConnectAddressInput
 @onready var _join_options: HBoxContainer = %JoinOptions

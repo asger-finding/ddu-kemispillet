@@ -10,6 +10,7 @@ signal _handshake
 signal _player_list_changed
 signal _player_changed
 signal _game_starting
+signal _new_question
 
 func connect_to_host() -> Error:
 	if not socket_address: return Error.FAILED
@@ -78,7 +79,13 @@ func handle_message(message: Dictionary) -> void:
 		
 		MpMessage.TypeId.GAME_STARTING:
 			var start_time: float = payload.start_time
-			_game_starting.emit(start_time)
+			# Account for ping diff
+			var time_sent: float = payload.time_sent
+			_game_starting.emit(start_time, time_sent)
+		
+		MpMessage.TypeId.NEW_QUESTION:
+			var key = int(payload.key);
+			_new_question.emit(key)
 		
 		_:
 			return

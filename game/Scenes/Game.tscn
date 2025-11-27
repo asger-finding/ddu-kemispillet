@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6catodorh3mu"]
+[gd_scene load_steps=10 format=3 uid="uid://b6catodorh3mu"]
 
 [ext_resource type="Shader" uid="uid://bj33mdq7bwfmq" path="res://Shaders/CrumbledPaper.gdshader" id="1_3so38"]
 [ext_resource type="Script" uid="uid://dn02ekxewi45q" path="res://Scripts/Backdrop.gd" id="2_3cx6b"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dm7woq1hl8pfa" path="res://Scenes/HUD/GameHUD.tscn" id="5_fgofq"]
 [ext_resource type="PackedScene" uid="uid://disc65ttfadmd" path="res://Scenes/HUD/DeathHUD.tscn" id="6_2irst"]
 [ext_resource type="PackedScene" uid="uid://bc5utjt2pmoqw" path="res://Scenes/HUD/PauseHUD.tscn" id="7_bf53h"]
+[ext_resource type="PackedScene" uid="uid://dgnp1upjcwdrt" path="res://Scenes/HUD/QuestionHUD.tscn" id="8_2irst"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_raj38"]
 shader = ExtResource("1_3so38")
@@ -48,3 +49,5 @@ layer = -1
 [node name="DeathHUD" parent="Camera" instance=ExtResource("6_2irst")]
 
 [node name="PauseHUD" parent="Camera" instance=ExtResource("7_bf53h")]
+
+[node name="QuestionHud" parent="Camera" instance=ExtResource("8_2irst")]

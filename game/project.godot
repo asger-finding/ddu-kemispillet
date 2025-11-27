@@ -13,8 +13,8 @@ config_version=5
 config/name="Kemispillet"
 run/main_scene="uid://cq4gf0ctpud42"
 config/features=PackedStringArray("4.5", "Forward Plus")
-boot_splash/bg_color=Color(0, 0, 0, 1)
-boot_splash/image="uid://cjukndtemmwwi"
+boot_splash/bg_color=Color(1, 1, 1, 1)
+boot_splash/image="uid://cfc3yjbo25fhx"
 
 [autoload]
 

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgnp1upjcwdrt"]
+
+[ext_resource type="Script" uid="uid://wnirts5uy4yw" path="res://Scripts/Interface/QuestionHUD.gd" id="1_jnbv1"]
+
+[node name="QuestionHud" type="CanvasLayer"]
+script = ExtResource("1_jnbv1")

@@ -1,5 +1,6 @@
 extends Node2D
 
+
 func _ready() -> void:
 	GameManager.spawn_player(self, Constants.SPAWN_POSITION)
 	

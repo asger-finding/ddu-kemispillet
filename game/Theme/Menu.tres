@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://dhwifj73kh3md"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://dhwifj73kh3md"]
 
 [ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="1_1jeue"]
 
@@ -14,6 +14,95 @@ corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gdpr5"]
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 4.0
+expand_margin_top = 2.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hg1a1"]
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2775277, 0.27752778, 0.27752754, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 4.0
+expand_margin_top = 2.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cs00u"]
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(2.887845e-05, 0.296549, 0.8366372, 1)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 4.0
+expand_margin_top = 2.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a72gc"]
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 4.0
+expand_margin_top = 2.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y1goh"]
+content_margin_bottom = 2.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0.26289317, 0.69035035, 1)
+border_blend = true
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+expand_margin_left = 4.0
+expand_margin_top = 2.0
+expand_margin_right = 4.0
+expand_margin_bottom = 2.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oef85"]
 bg_color = Color(1, 1, 1, 1)
@@ -64,13 +153,25 @@ Button/colors/font_color = Color(0, 0, 0, 1)
 Button/font_sizes/font_size = 32
 Button/fonts/font = ExtResource("1_1jeue")
 Button/styles/normal = SubResource("StyleBoxFlat_df5hk")
+CheckBox/colors/font_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_focus_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_hover_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+CheckBox/colors/font_pressed_color = Color(0.17641911, 0.17641908, 0.17641908, 1)
+CheckBox/font_sizes/font_size = 17
+CheckBox/fonts/font = ExtResource("1_1jeue")
+CheckBox/styles/focus = SubResource("StyleBoxFlat_gdpr5")
+CheckBox/styles/hover = SubResource("StyleBoxFlat_hg1a1")
+CheckBox/styles/hover_pressed = SubResource("StyleBoxFlat_cs00u")
+CheckBox/styles/normal = SubResource("StyleBoxFlat_a72gc")
+CheckBox/styles/pressed = SubResource("StyleBoxFlat_y1goh")
 LineEdit/colors/caret_color = Color(0.11119669, 0.11119684, 0.11119718, 1)
 LineEdit/colors/font_color = Color(0.29586697, 0.29586634, 0.29586646, 1)
 LineEdit/colors/font_placeholder_color = Color(0.3180198, 0.31801978, 0.3180198, 0.6)
 LineEdit/styles/focus = SubResource("StyleBoxFlat_oef85")
 LineEdit/styles/normal = SubResource("StyleBoxFlat_8nfah")
 MenuButton/colors/font_color = Color(1, 1, 1, 1)
-MenuButton/colors/font_hover_color = Color(0.6681848, 0.9634406, 0.99999994, 1)
+MenuButton/colors/font_hover_color = Color(2.9841065e-06, 0.9519482, 0.45479333, 1)
 MenuButton/colors/font_outline_color = Color(0, 0, 0, 1)
 MenuButton/constants/outline_size = 8
 MenuButton/styles/hover = SubResource("StyleBoxFlat_q7pxh")

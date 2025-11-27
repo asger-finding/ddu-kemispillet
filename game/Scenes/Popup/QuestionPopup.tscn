@@ -1,0 +1,146 @@
+[gd_scene load_steps=15 format=3 uid="uid://d07faafe8h3e5"]
+
+[ext_resource type="Script" uid="uid://c4yivejj30xmc" path="res://Scripts/Interface/QuestionPopup.gd" id="1_t8qu8"]
+[ext_resource type="Texture2D" uid="uid://dvd0crcngfrbn" path="res://Assets/Question/Answer_default.png" id="2_7io4j"]
+[ext_resource type="Texture2D" uid="uid://csjdnunmq48t6" path="res://Assets/Question/Question_frame.png" id="2_u4wgk"]
+[ext_resource type="Texture2D" uid="uid://jnh4flsqm5t0" path="res://Assets/Question/Answer_pressed.png" id="3_j0shh"]
+[ext_resource type="FontFile" uid="uid://b6ixxpdy5in1g" path="res://Fonts/Schoolbell-Regular.ttf" id="3_sx84p"]
+[ext_resource type="Theme" uid="uid://dhwifj73kh3md" path="res://Theme/Menu.tres" id="4_bxlge"]
+[ext_resource type="Texture2D" uid="uid://cbbhq8selckus" path="res://Assets/Question/Answer_disabled.png" id="4_j0shh"]
+[ext_resource type="Texture2D" uid="uid://dur4c445tr4bd" path="res://Assets/Question/Giveup_default.png" id="7_ntin2"]
+[ext_resource type="Texture2D" uid="uid://mbul7qy7wnrm" path="res://Assets/Question/Giveup_pressed.png" id="8_bxlge"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sx84p"]
+texture = ExtResource("2_u4wgk")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ntin2"]
+font = ExtResource("3_sx84p")
+font_size = 24
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_u758j"]
+font = ExtResource("3_sx84p")
+font_size = 64
+outline_size = 16
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_j0shh"]
+font = ExtResource("3_sx84p")
+font_size = 24
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7io4j"]
+font = ExtResource("3_sx84p")
+font_size = 24
+outline_size = 2
+stacked_outline_count = 1
+stacked_outline_0/size = 6
+
+[node name="QuestionPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_t8qu8")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_sx84p")
+
+[node name="TimeoutLabel" type="Label" parent="Panel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_left = 909.0
+offset_top = 45.0
+offset_right = 1109.0
+offset_bottom = 78.0
+text = "Lukker om x s"
+label_settings = SubResource("LabelSettings_ntin2")
+horizontal_alignment = 2
+
+[node name="ChapterLabel" type="Label" parent="Panel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(1152, 0)
+layout_mode = 0
+offset_top = 2.0
+offset_right = 1152.0
+offset_bottom = 90.0
+text = "CHAPTER"
+label_settings = SubResource("LabelSettings_u758j")
+horizontal_alignment = 1
+
+[node name="InfoContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 154.0
+offset_right = 1012.0
+offset_bottom = 248.0
+alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="Panel/InfoContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "DESCRIPTION"
+label_settings = SubResource("LabelSettings_j0shh")
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/InfoContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 20
+
+[node name="QuestionLabel" type="Label" parent="Panel/InfoContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "QUESTION"
+label_settings = SubResource("LabelSettings_7io4j")
+horizontal_alignment = 1
+
+[node name="InputContainer" type="VBoxContainer" parent="Panel"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 0
+offset_left = 461.0
+offset_top = 265.0
+offset_right = 721.0
+offset_bottom = 465.0
+alignment = 1
+
+[node name="CheckBox" type="CheckBox" parent="Panel/InputContainer"]
+layout_mode = 2
+theme = ExtResource("4_bxlge")
+text = "testest"
+
+[node name="TextInput" type="LineEdit" parent="Panel/InputContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("4_bxlge")
+placeholder_text = "Skriv dit svar her ..."
+
+[node name="SubmitButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 600.0
+offset_top = 460.0
+offset_right = 1823.0
+offset_bottom = 1000.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("2_7io4j")
+texture_pressed = ExtResource("3_j0shh")
+texture_disabled = ExtResource("4_j0shh")
+
+[node name="GiveUpButton" type="TextureButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 309.0
+offset_top = 460.0
+offset_right = 1532.0
+offset_bottom = 1000.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("7_ntin2")
+texture_pressed = ExtResource("8_bxlge")
+
+[connection signal="button_up" from="SubmitButton" to="." method="_on_submit_button_button_up"]
+[connection signal="button_up" from="GiveUpButton" to="." method="_on_give_up_button_button_up"]

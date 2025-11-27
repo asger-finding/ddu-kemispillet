@@ -37,12 +37,11 @@ process_mode = 3
 script = ExtResource("1_8wuao")
 
 [node name="PauseText" type="Label" parent="."]
-visible = false
 offset_left = -68.0
 offset_top = 212.0
 offset_right = 1209.0
 offset_bottom = 432.0
-text = "hjerne på standby"
+text = "de andre venter ikke..."
 label_settings = SubResource("LabelSettings_i4lct")
 horizontal_alignment = 1
 
@@ -60,7 +59,7 @@ offset_left = 81.0
 offset_top = 11.0
 offset_right = 359.0
 offset_bottom = 94.0
-text = "snooze"
+text = "kom i gang!"
 label_settings = SubResource("LabelSettings_8r6kd")
 
 [node name="GiveUpButton" type="Button" parent="PauseText"]
@@ -77,7 +76,7 @@ offset_left = 40.0
 offset_top = 8.0
 offset_right = 219.0
 offset_bottom = 91.0
-text = "vågn op"
+text = "call it quits"
 label_settings = SubResource("LabelSettings_wxwew")
 
 [connection signal="button_up" from="PauseText/ResumeButton" to="." method="_on_resume_button_button_up"]
