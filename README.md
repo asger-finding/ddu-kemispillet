@@ -39,3 +39,15 @@ Anvender Godot 4.5 til et kemifagligt spil.
 - Hav det sjovt!
 
 Hvis du skal flush, kør `./backend/destroy.sh`
+
+## Tjekliste til viderearbejde
+
+- [ ] Implementer round-state (progress bar, win conditions)
+- [ ] Implementer checkpoints
+- [ ] Justér konstanter
+- [ ] Implementer statistik - opdater spillerstatistik ved slutningen af en runde
+- [ ] Nemmere måde at hoste på
+- [ ] Tjek server health når man forsøger at tilslutte til en vært
+- [ ] Bedre måde at vælge spørgsmål på - vægt spørgsmål, så vi undgår gentagne spørgsmål kort efter hinanden
+- [ ] Justér konstanter
+- [ ] Bug fixes, styrk WebSocket-forbindelsen, bedre fejlhåndtering
