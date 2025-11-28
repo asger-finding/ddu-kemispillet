@@ -29,7 +29,7 @@ Anvender Godot 4.5 til et kemifagligt spil.
 - Klon dette repository (`git clone https://github.com/asger-finding/ddu-kemispillet.git`) eller hent som ZIP
 - `cd ddu-kemispillet/`
   - Kør `./backend/start.sh`
-  - Vent til docker images er downloaded
+  - Vent til podman images er downloaded og apache og MySQL sat op
   - ZeroTier kræver en bruger. Du bliver givet et link i konsollen. Tilgå linket, opret en konto eller log ind med konto.
     - Når du er inde, tilgå netværket `kemispillet`
     - Tjek adressen i kolonnen under Members (bør have et 🚫 udenfor), og tryk Authorize
@@ -46,7 +46,7 @@ Hvis du skal flush, kør `./backend/destroy.sh`
 - [ ] Implementer checkpoints
 - [ ] Justér konstanter
 - [ ] Implementer statistik - opdater spillerstatistik ved slutningen af en runde
-- [ ] Nemmere måde at hoste på
+- [ ] Nemmere måde at hoste et spil på - evt. med HTTPS, så det kan tilgås online
 - [ ] Tjek server health når man forsøger at tilslutte til en vært
 - [ ] Bedre måde at vælge spørgsmål på - vægt spørgsmål, så vi undgår gentagne spørgsmål kort efter hinanden
 - [ ] Justér konstanter
